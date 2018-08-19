@@ -5,7 +5,7 @@
     <section class="create-link">
 
         {{ Form::open([
-            'route' => 'link.store',
+            'route' => 'store',
             'class' => 'link-form']) }}
 
             {{ Form::text(

@@ -11,9 +11,15 @@
 |
 */
 
+/*
 Route::get('/', function () {
     return view('main');
 });
-Route::resource('link', 'LinkController')->only([
+ */
+Route::resource('/', 'LinkController')->only([
     'index', 'create', 'store', 'show'
 ]);
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
