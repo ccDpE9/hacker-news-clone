@@ -9,7 +9,8 @@ class LinkController extends Controller
 {
     public function index()
     {
-        //
+        $links = Link::orderBy('id', 'desc')->paginate(30);
+        return view('links.index')->with('links', $links);
     }
 
     public function create()

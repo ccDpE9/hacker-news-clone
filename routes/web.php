@@ -14,4 +14,6 @@
 Route::get('/', function () {
     return view('main');
 });
-Route::resource('link', 'LinkController');
+Route::resource('link', 'LinkController')->only([
+    'index', 'create', 'store', 'show'
+]);
