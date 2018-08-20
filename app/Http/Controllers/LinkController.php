@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Link;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LinkController extends Controller
 {
+
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $links = Link::orderBy('id', 'desc')->paginate(30);
@@ -29,9 +35,10 @@ class LinkController extends Controller
         $link->title = $request->title;
         $link->url = $request->url;
         $link->description = $request->description;
+        $link->user_id = Auth::user()->id;
         $link->save();
 
-        return redirect()->route('link.show', $link->id);
+        return redirect()->route('links.show', $link->id);
     }
 
     // public function show(Link $link)
