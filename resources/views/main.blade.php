@@ -8,7 +8,11 @@
 <body>
 
     <div class="container">
+
+        @include('partials._nav')
+
         @yield('content')
+
     </div>
 
 </body>

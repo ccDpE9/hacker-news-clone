@@ -1,0 +1,45 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+/* --- INDEX PAGE --- */
+
+.container {
+  margin-top: 1%;
+  margin-left: 5%;
+  margin-right: 5%;
+  background-color: #f6f6ef;
+
+  .navbar {
+    width: 100%;
+    background-color: #ff6600;
+    color: black;
+
+    &__btn {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+  }
+
+
+  ul {
+    list-style: none;
+
+    a:hover,
+    a:visited {
+      text-decoration: none;
+    }
+
+    a:link,
+    a:active {
+      text-decoration: none;
+    }
+
+  }
+
+}
