@@ -7,13 +7,38 @@
           box-sizing: inherit;
 }
 
-/* --- INDEX PAGE --- */
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+/* --- UNIVERSAL --- */
+
+ul {
+  list-style: none;
+}
+
+a:hover,
+a:visited {
+  text-decoration: none;
+}
+
+a:link,
+a:active {
+  text-decoration: none;
+}
+
+/* --- PAGE --- */
 
 .container {
   margin-top: 1%;
   margin-left: 5%;
   margin-right: 5%;
   background-color: #f6f6ef;
+  /* --- INDEX PAGE LISTS --- */
 }
 
 .container .navbar {
@@ -27,17 +52,27 @@
   margin-right: 10px;
 }
 
-.container ul {
-  list-style: none;
+.container .navbar__auth {
+  float: right;
 }
 
-.container ul a:hover,
-.container ul a:visited {
-  text-decoration: none;
+.container .links {
+  margin-bottom: 10px;
 }
 
-.container ul a:link,
-.container ul a:active {
-  text-decoration: none;
+.container .links__btn {
+  display: inline-block;
+}
+
+.container .links__btn a {
+  color: #828282;
+}
+
+.container .links__title {
+  display: block;
+}
+
+.container .links__title a {
+  color: #000000;
 }
 

@@ -6,7 +6,32 @@
   box-sizing: inherit;
 }
 
-/* --- INDEX PAGE --- */
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+/* --- UNIVERSAL --- */
+
+ul {
+  list-style: none;
+}
+
+a:hover,
+a:visited {
+  text-decoration: none;
+}
+
+a:link,
+a:active {
+  text-decoration: none;
+}
+
+
+/* --- PAGE --- */
 
 .container {
   margin-top: 1%;
@@ -22,22 +47,35 @@
     &__btn {
       display: inline-block;
       margin-right: 10px;
+
+    }
+
+    &__auth {
+      float: right;
     }
 
   }
 
+  /* --- INDEX PAGE LISTS --- */
+  .links {
+    margin-bottom: 10px;
 
-  ul {
-    list-style: none;
+    &__btn {
+      display:inline-block;
 
-    a:hover,
-    a:visited {
-      text-decoration: none;
+      a {
+	color: #828282;
+      }
+
     }
+    
+    &__title {
+      display: block;
 
-    a:link,
-    a:active {
-      text-decoration: none;
+      a {
+	color: #000000;
+      }
+
     }
 
   }
