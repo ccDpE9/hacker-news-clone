@@ -17,7 +17,7 @@ class LinkController extends Controller
 
     public function index()
     {
-        $links = Link::orderBy('id', 'desc')->paginate(30);
+        $links = Link::with('user')->get();
         return view('links.index')->with('links', $links);
     }
 

@@ -18,6 +18,7 @@
                     <a href="{{ $link->url }}" target="_blank">{{ $link->created_at }}</a>
                 </li>
                 <li class="links__btn links_author">
+                    {{ $link->user()->first()->name }}
                 </li>
             </div>
             
