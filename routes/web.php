@@ -56,4 +56,5 @@ Route::post('register', [
   'uses' => 'Auth\RegisterController@register'
 ]);
 
+Route::resource('/profile', 'ProfileController')->only(['show']);
 Route::get('/home', 'HomeController@index')->name('home');

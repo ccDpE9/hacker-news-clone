@@ -18,7 +18,7 @@
                     <a href="{{ $link->url }}" target="_blank">{{ $link->created_at }}</a>
                 </li>
                 <li class="links__btn links_author">
-                    {{ $link->user()->first()->name }}
+                    <a href="{{ route('profile.show', $link->user()->first()->name) }}" target="_blank">{{ $link->user()->first()->name }}</a>
                 </li>
             </div>
             
