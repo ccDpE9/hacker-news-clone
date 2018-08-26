@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <section class="create-link">
+    <div class="create-link">
 
         {{ Form::open([
             'route' => 'links.store',
@@ -30,4 +30,6 @@
 
         {{ Form::close() }}
 
-    </section>
+    </div>
+
+@endsection
