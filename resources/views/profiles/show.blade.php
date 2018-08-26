@@ -3,8 +3,6 @@
 @section('content')
 
     <p>{{ $profile->name }}</p>
-    @foreach ($links as $link )
-        <a href="{{ route('links.show', $link->id) }}">{{ $link-title }}</a>
-    @endforeach
+    <a href="{{ route('profile.links', $profile->name) }}">submissions</a>
 
 @endsection

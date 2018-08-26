@@ -57,4 +57,8 @@ Route::post('register', [
 ]);
 
 Route::resource('/profile', 'ProfileController')->only(['show']);
+Route::get('/submitted/{name}/links', [
+    'as' => 'profile.links',
+    'uses' => 'ProfileController@links'
+]);
 Route::get('/home', 'HomeController@index')->name('home');
