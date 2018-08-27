@@ -17,8 +17,10 @@ class LinkController extends Controller
 
     public function index()
     {
-        $links = Link::with('user')->get();
-        return view('links.index')->with('links', $links);
+        $links = Link::with('user')
+            ->get();
+        return view('links.index')
+            ->with('links', $links);
     }
 
     public function create()
@@ -40,14 +42,17 @@ class LinkController extends Controller
         $link->user_id = Auth::user()->id;
         $link->save();
 
-        return redirect()->route('links.show', $link->id);
+        return redirect()
+            ->route('links.show', $link->id);
     }
 
     // public function show(Link $link)
     public function show($id)
     {
-        $link = Link::where('id', $id)->firstOrFail();
-        return view('links.show')->with('link', $link);
+        $link = Link::where('id', $id)
+            ->firstOrFail();
+        return view('links.show')
+            ->with('link', $link);
     }
 
     public function edit(Link $link)
@@ -64,4 +69,16 @@ class LinkController extends Controller
     {
         //
     }
+
+    public function search(Request $request)
+    {
+        $request->validate([
+            'query' => 'required|min:3',
+        ]);
+        // is just a string equal to input value
+        $query = $request->input('query');
+        $links = Link::where('title', $query)->get();
+        return view('links.index')->with('links', $links);
+    }
+
 }

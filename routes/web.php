@@ -14,6 +14,7 @@
 Route::resource('/links', 'LinkController')->only([
     'index', 'create', 'store', 'show'
 ]);
+Route::get('/search', 'LinkController@search')->name('links.search');
 
 Route::get('login', [
   'as' => 'login',
