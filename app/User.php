@@ -17,8 +17,14 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function links() {
+    public function links()
+    {
         return $this->hasMany('App\Link');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany('App\Upvote');
     }
 
 }

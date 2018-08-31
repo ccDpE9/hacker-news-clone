@@ -4,17 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Link extends Model
+class Upvote extends Model
 {
 
-    public function user()
+    public function users()
     {
         return $this->belongsTo('App\User');
     }
 
-    public function likes()
+    public function links()
     {
-        return $this->hasMany('App\Upvote');
+        return $this->belongsTo('App\Link');
     }
 
 }
