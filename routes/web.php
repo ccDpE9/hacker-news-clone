@@ -16,6 +16,9 @@ Route::resource('/links', 'LinkController')->only([
 ]);
 Route::get('/search', 'LinkController@search')->name('links.search');
 
+
+// --- AUTH --- //
+
 Route::get('login', [
   'as' => 'login',
   'uses' => 'Auth\LoginController@showLoginForm'
@@ -57,9 +60,20 @@ Route::post('register', [
   'uses' => 'Auth\RegisterController@register'
 ]);
 
+
+// --- PROFILE --- //
+
 Route::resource('/profile', 'ProfileController')->only(['show']);
 Route::get('/submitted/{name}/links', [
     'as' => 'profile.links',
     'uses' => 'ProfileController@links'
 ]);
+
+
+// --- HOME --- //
+
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+// --- UPVOTES --- //
+Route::post('/upvotes', 'UpvoteController@store')->name('upvotes.store');

@@ -8,6 +8,10 @@
     <li class="navbar__btn"><a href="#">submit</a></li>
     
     <div class="navbar__auth">
-        <li class="navbar__btn navbar_auth--login"><a href="{{ route('login') }}">login</a></li>
+        @if (auth()->user())
+            <p>{{ Auth::user()->name }}</p>
+        @else 
+            <li class="navbar__btn navbar_auth--login"><a href="{{ route('login') }}">login</a></li>
+        @endif
     </div>
 </ul>
