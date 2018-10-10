@@ -24,4 +24,12 @@ class LinkTest extends TestCase
         $response = $this->get('/links');
         $response->assertSee($link->title);
     }
+
+    public function user_can_view_individual_link()
+    {
+        $link = factory('App\Link')->create();
+        $response = $this->get('/links/', $link->id);
+        $response->assertSee($link->title);
+    }
+
 }
