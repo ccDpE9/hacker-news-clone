@@ -17,4 +17,11 @@ class LinkTest extends TestCase
         $response = $this->get('/links');
         $response->assertStatus(200);
     }
+
+    public function user_can_view_links()
+    {
+        $link = factory('App\Link')->create();
+        $response = $this->get('/links');
+        $response->assertSee($link->title);
+    }
 }
