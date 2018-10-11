@@ -35,24 +35,21 @@ class LinkController extends Controller
             'url' => 'bail|required',
         ]);
 
-        $link = new Link;
-        $link->title = $request->title;
-        $link->url = $request->url;
-        $link->description = $request->description;
-        $link->user_id = Auth::user()->id;
-        $link->save();
+        $link = Link::create([
+            'title' => $request->title,
+            'url' => $request->url,
+            'description' => $request->description,
+            'user_id' => auth()->id(),
+        ]);
 
         return redirect()
             ->route('links.show', $link->id);
     }
 
     // public function show(Link $link)
-    public function show($id)
+    public function show(Link $link)
     {
-        $link = Link::where('id', $id)
-            ->firstOrFail();
-        return view('links.show')
-            ->with('link', $link);
+        return view('links.show')->with('link', $link);
     }
 
     public function edit(Link $link)
