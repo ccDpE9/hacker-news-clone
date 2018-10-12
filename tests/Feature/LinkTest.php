@@ -5,11 +5,12 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class LinkTest extends TestCase
 {
 
-    use RefreshDatabase;
+    use DatabaseMigrations;
 
     /** @test **/
     public function user_can_view_index_page()
@@ -18,6 +19,7 @@ class LinkTest extends TestCase
         $response->assertStatus(200);
     }
 
+    /** @test **/
     public function user_can_view_links()
     {
         $link = factory('App\Link')->create();
@@ -25,11 +27,23 @@ class LinkTest extends TestCase
         $response->assertSee($link->title);
     }
 
+    /** @test **/
     public function user_can_view_individual_link()
     {
         $link = factory('App\Link')->create();
-        $response = $this->get('/links/', $link->id);
+        $response = $this->get('/links/' . $link->id);
         $response->assertSee($link->title);
+    }
+
+    /** @test **/
+    public function auth_user_can_post_link()
+    {
+        $user = factory(\App\User::class)->create();
+        $response = $this->actingAs($user);
+        $link = factory('App\Link')->create();
+        $this->post('/links/store', $link->toArray());
+        $test = $this->get('/links/' . $link->id);
+        $test->assertSee($link->title);
     }
 
 }
