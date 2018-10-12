@@ -40,10 +40,20 @@ class LinkTest extends TestCase
     {
         $user = factory(\App\User::class)->create();
         $response = $this->actingAs($user);
+        // $link = factory('App\Link')->make();
+        // code above drops an error, why?
         $link = factory('App\Link')->create();
         $this->post('/links/store', $link->toArray());
         $test = $this->get('/links/' . $link->id);
         $test->assertSee($link->title);
+    }
+
+    /** @test **/
+    public function non_authenticated_users_cannot_post_link()
+    {
+        $link = factory('App\Link')->create();
+        $request = $this->post('/links/store', $link->toArray());
+        $request->assertStatus(405);
     }
 
 }
