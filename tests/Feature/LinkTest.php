@@ -56,4 +56,15 @@ class LinkTest extends TestCase
         $request->assertStatus(405);
     }
 
+    /** @test **/
+    public function a_link_can_be_deleted()
+    {
+        $user = factory('App\User')->create();
+        $this->actingAs($user);
+        $link = factory('App\Link')->create();
+        //$this->json('DELETE', $link->path());
+        $this->delete('/links/' . $link->id);
+        $this->assertDatabaseMissing('links', ['id' => $link->id]);
+    }
+
 }

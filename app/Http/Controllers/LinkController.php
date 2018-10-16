@@ -35,9 +35,9 @@ class LinkController extends Controller
         ]);
 
         $link = Link::create([
-            'title' => $request->title,
-            'url' => $request->url,
-            'description' => $request->description,
+            'title' => $request['title'],
+            'url' => $request['url'],
+            'description' => $request['description'],
             'user_id' => auth()->id(),
         ]);
 
@@ -63,7 +63,7 @@ class LinkController extends Controller
 
     public function destroy(Link $link)
     {
-        //
+        $link->delete();
     }
 
     public function search(Request $request)
