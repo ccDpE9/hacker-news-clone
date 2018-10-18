@@ -18,6 +18,13 @@ class CreateLinkTable extends Migration
             $table->string('title', 255);
             $table->string('url', 255);
             $table->text('description');
+            $table
+                ->integer('user_id')
+                ->unsigned();
+            $table
+                ->foreign('user_id')
+                ->references('id')
+                ->on('users');
             $table->timestamps();
         });
     }
@@ -29,6 +36,9 @@ class CreateLinkTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('links');
+        Schema::dropIfExists('links', function(Blueprint $table) {
+            $table->dropForeign('links_user_id_foreign');
+            $table->dropColumn('user_id');
+        });
     }
 }
