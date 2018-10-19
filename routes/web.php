@@ -1,10 +1,16 @@
 <?php
 
 
+// --- LINKS --- //
+
 Route::resource('/links', 'LinkController')->only([
     'index', 'create', 'store', 'show', 'destroy',
 ]);
 Route::get('/search', 'LinkController@search')->name('links.search');
+
+
+// --- COMMENTS --- //
+Route::resource('/comments', 'CommentController')->only(['store']);
 
 
 // --- AUTH --- //
