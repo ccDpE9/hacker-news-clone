@@ -6,6 +6,8 @@ use App\Link;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use Carbon\Carbon;
+
 class LinkController extends Controller
 {
 
@@ -48,7 +50,12 @@ class LinkController extends Controller
     // public function show(Link $link)
     public function show(Link $link)
     {
-        return view('links.show')->with('link', $link);
+        $now = Carbon::now();
+        $end = Carbon::parse($link->created_at);
+        $diff = $end->diffForHumans($now);
+        return view('links.show')
+            ->with('link', $link)
+            ->with('date', $diff);
     }
 
     public function edit(Link $link)
