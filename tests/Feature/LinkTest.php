@@ -47,8 +47,7 @@ class LinkTest extends TestCase
     /** @test **/
     public function auth_user_can_post_link()
     {
-        $user = factory(\App\User::class)->create();
-        $this->actingAs($user);
+        $this->signIn();
         // $link = factory('App\Link')->make();
         // code above drops an error, why?
         $this->post('/links/store', $this->link->toArray());
@@ -87,4 +86,21 @@ class LinkTest extends TestCase
         $this->get('/links/' . $this->link->id)
             ->assertSee($comment->body);
     }
+
+
+    /** @test **/
+    public function a_link_requires_a_title()
+    {
+        $this->publishLink(['title' => Null])
+            ->assertSessionHasErrors('title');
+    }
+
+
+    public function publishLink($overrides = [])
+    {
+        $this->signIn();
+        $link = make('App\Link', $overrides);
+        $this->post('/links', $link->toArray());
+    }
+
 }
