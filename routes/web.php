@@ -11,6 +11,7 @@ Route::get('/search', 'LinkController@search')->name('links.search');
 
 // --- COMMENTS --- //
 Route::resource('/comments', 'CommentController')->only(['store']);
+Route::post('/reply', 'CommentController@replyStore')->name('reply.store');
 
 
 // --- AUTH --- //

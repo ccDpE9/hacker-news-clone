@@ -94,6 +94,7 @@ a:active {
   background-color: #f6f6ef;
   /* --- NAVBAR ---*/
   /* --- INDEX PAGE LISTS --- */
+  /* --- COMMENTS --- */
 }
 
 .container .navbar {
@@ -129,5 +130,20 @@ a:active {
 
 .container .links__title a {
   color: #000000;
+}
+
+.container .comment-form textarea {
+  border: 1px solid #828282 !important;
+}
+
+.container .comment-form__btn {
+  border: 1px solid #828282 !important;
+  opacity: 1;
+  -webkit-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+}
+
+.container .comment-form__btn:hover {
+  opacity: 0.8;
 }
 

@@ -142,4 +142,24 @@ a:active {
 
   }
 
+
+  /* --- COMMENTS --- */
+  .comment-form {
+    textarea {
+      border: 1px solid #828282 !important;
+    }
+
+    &__btn {
+      border: 1px solid #828282 !important;
+      opacity: 1;
+      transition: opacity 0.3s;
+
+      &:hover {
+	opacity: 0.8;
+      }
+
+    }
+
+  }
+
 }
