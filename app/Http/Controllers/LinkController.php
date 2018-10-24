@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use Carbon\Carbon;
+use App\Comment;
 
 class LinkController extends Controller
 {
@@ -50,12 +51,27 @@ class LinkController extends Controller
     // public function show(Link $link)
     public function show(Link $link)
     {
+        // link
         $now = Carbon::now();
         $end = Carbon::parse($link->created_at);
         $diff = $end->diffForHumans($now);
+
+        // comment
+        // 1. load comments
+        // where 'commentable_id' == $link->id AND parent_id == Null
+        // what the difference between: ::where() vs ::where()->get()
+        // there is a difference between $comment->replies and $comment->replies()
+        // dd(gettype($comments[0]->replies));
+        $comments = Comment::where('commentable_id', $link->id)->where('parent_id', Null)->get();
+        // $end = Carbon::parse($comments->created_at);
+
+
+        // returned compacted
+        // if i chain 4 withs, it'll look ugly
         return view('links.show')
             ->with('link', $link)
-            ->with('date', $diff);
+            ->with('date', $diff)
+            ->with('comments', $comments);
     }
 
     public function edit(Link $link)

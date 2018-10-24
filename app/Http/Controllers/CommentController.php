@@ -13,15 +13,6 @@ class CommentController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
-    {
-        //
-    }
-
-    public function create()
-    {
-        //
-    }
 
     public function store(Request $request)
     {
@@ -35,9 +26,16 @@ class CommentController extends Controller
         return redirect()->route('links.show', $request['link_id']);
     }
 
-    public function show($id)
+    public function replyStore(Request $request)
     {
-        //
+        $reply = new Comment;
+        $reply->body = $request['body'];
+        $reply->user()->associate($request->user());
+        $reply->parent_id = $request['comment_id'];
+        $link = Link::find($request['link_id']);
+        $link->comments()->save($reply);
+
+        return redirect()->route('links.show', $request['link_id']);
     }
 
     public function edit($id)
