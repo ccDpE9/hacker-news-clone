@@ -1,9 +1,8 @@
 @foreach ($comments as $comment)
 
-    <ul>
-        <li>{{ $comment->body }}
+    <div class="reply">
+        <p>{{ $comment->body }}</p>
         @include ('comments.show', ['comments' => $comment->replies])
-        </li>
-    </ul>
+    </div>
 
 @endforeach

@@ -7,7 +7,12 @@
     <p>{{ $date }}</p>
     @include('comments.create', ['link_id' => $link->id])
 
-    @include ('comments.show', ['comments' => $comments])
+    @foreach ($comments as $comment)
+        <div class="comment">
+            <p>{{ $comment->body }}</p>
+            @include ('comments.show', ['comments' => $comment->replies])
+        </div>
+    @endforeach
 
 @endsection
     

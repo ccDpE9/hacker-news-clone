@@ -132,6 +132,10 @@ a:active {
   color: #000000;
 }
 
+.container .reply {
+  padding-left: 10px;
+}
+
 .container .comment-form textarea {
   border: 1px solid #828282 !important;
 }
