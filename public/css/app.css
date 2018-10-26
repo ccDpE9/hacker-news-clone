@@ -132,8 +132,26 @@ a:active {
   color: #000000;
 }
 
-.container .reply {
-  padding-left: 10px;
+.container .thread {
+  padding: 15px 0 10px 0;
+  border-bottom: solid 1px #eeeeee;
+}
+
+.container .thread__comment--user {
+  float: left;
+}
+
+.container .thread__reply {
+  padding: 8px 0 0 15px;
+  border-left: solid 1px #ccc;
+}
+
+.container .thread__reply--user {
+  float: left;
+}
+
+.container .thread__reply--body {
+  margin-bottom: 15px;
 }
 
 .container .comment-form textarea {
