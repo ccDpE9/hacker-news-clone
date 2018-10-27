@@ -18,37 +18,45 @@
         </div>
     @endif
 
-    <ul>
+    <section>
         <!-- $links->count() -->
         @foreach($links as $link)
-            <div class="links" data-linkid="{{ $link->id }}">
-                <li class="links__btn links__title">
-                    <a href="{{ $link->url }}" target="_blank">{{ $link->title }}</a>
-                </li>
-                <li class="links__btn links__comments">
-                    <a href="{{ route('links.show', $link->id) }}">Comments</a>
-                </li>
-                <li class="links__btn links__url">
-                    <a href="{{ $link->url }}" target="_blank">{{ $link->url }}</a>
-                </li>
-                <li class="links__btn links__date">
-                    <a href="{{ $link->url }}" target="_blank">{{ $link->created_at }}</a>
-                </li>
-                <li class="links__btn links_author">
-                    <a href="{{ route('profile.show', $link->user()->first()->name) }}" target="_blank">{{ $link->user()->first()->name }}</a>
-                </li>
-                @if (auth()->user())
-                    <li class="links_btn links__upvote">
-                        <a href="#" class="links__upvote--btn">Upvote</a>
-                    </li>
-                @else
-                    <li class="links_btn links__upvote">
-                        <a href="{{ route('login') }}">Upvote</a>
-                    </li>
-                @endif
+            <div class="link" data-linkid="{{ $link->id }}">
+                <div class="link__info">
+                    <a class="link__btn link__title" href="{{ $link->url }}" target="_blank"><span class="num">{{ $loop->iteration }}. {{ $link->title }}</a>
+                    <div class="link__meta">
+                    <span>
+                        <img src="/img/like.svg" class="icon" />
+                    </span>
+                    <span>
+                        <img src="/img/avatar.svg" class="icon"/>
+                        <a class="link__btn link__author" 
+                            href="{{ route('profile.show', $link->user()->first()->name) }}" 
+                            target="_blank">
+                                {{ $link->user()->first()->name }}
+                        </a>
+                    </span>
+                    <span>
+                        <img src="/img/time.svg" class="icon" />
+                        {{ $link->date() }}
+                    </span>
+                    <span>
+                        <a class="link__btn link__url" href="{{ $link->url }}" target="_blank">{{ $link->baseUrl() }}</a>
+                    </span>
+                    </div>
+                </div>
+                <div class="link__social">
+                    <a class="link__btn link__comments" href="{{ route('links.show', $link->id) }}">Comments</a>
+                    <a href="#"><img src="/img/network.svg" class="icon" /></a>
+                    @if (auth()->user())
+                        <a class="link__btn link__upvote" href="#" class="link__upvote--btn"><img src="/img/star.svg" class="icon" /></a>
+                    @else
+                        <a class="link__btn link__upvote" href="{{ route('login') }}"><img src="/img/star.svg" class="icon" /></a>
+                    @endif
+                </div>
             </div>
         @endforeach
-    </ul>
+    </section>
 
     <script>
         var url = '{{ route('upvotes.store') }}';

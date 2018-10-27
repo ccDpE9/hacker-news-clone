@@ -36,6 +36,11 @@ a:active {
   text-decoration: none;
 }
 
+.icon {
+  width: 13px;
+  height: auto;
+}
+
 /* --- HEADER ---*/
 
 .header-wrapper {
@@ -119,25 +124,21 @@ a:active {
   }
 
   /* --- INDEX PAGE LISTS --- */
-  .links {
-    margin-bottom: 10px;
+  .link {
+    display: flex;
+    padding: 30px 0;
+    border-bottom: solid 1px #eee;
 
-    &__btn {
-      display:inline-block;
-
-      a {
-	color: #828282;
-      }
-
-    }
-    
     &__title {
       display: block;
+    }
 
-      a {
-	color: #000000;
-      }
+    &__meta {
+      font-size: 13px;
+    }
 
+    &__social {
+      margin-left: auto;
     }
 
   }
