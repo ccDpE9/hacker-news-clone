@@ -64,8 +64,7 @@ class LinkController extends Controller
         // dd(gettype($comments[0]->replies));
         $comments = Comment::where('commentable_id', $link->id)->where('parent_id', Null)->get();
         // $end = Carbon::parse($comments->created_at);
-
-
+        
         // returned compacted
         // if i chain 4 withs, it'll look ugly
         return view('links.show')
