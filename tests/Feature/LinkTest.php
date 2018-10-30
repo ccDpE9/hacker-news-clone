@@ -37,6 +37,11 @@ class LinkTest extends TestCase
 
 
     /** @test **/
+    public function index_page_shows_all_links()
+    {
+    }
+
+    /** @test **/
     public function user_can_view_individual_link()
     {
         $this->get('/links/' . $this->link->id)
@@ -91,16 +96,13 @@ class LinkTest extends TestCase
     /** @test **/
     public function a_link_requires_a_title()
     {
-        $this->publishLink(['title' => Null])
-            ->assertSessionHasErrors('title');
-    }
-
-
-    public function publishLink($overrides = [])
-    {
         $this->signIn();
-        $link = make('App\Link', $overrides);
-        $this->post('/links', $link->toArray());
+        $link = make('App\Link', ['title' => null]);
+        $response = $this->post(route('links.store'), $link->toArray());
+        $response->assertSessionHasErrors('title');
     }
+
+
+    // ASSERT THAT THE BASEURL() RETURNS URL AND NOT JUST A RONDOM STRING
 
 }
