@@ -96,12 +96,26 @@ class LinkTest extends TestCase
     /** @test **/
     public function a_link_requires_a_title()
     {
-        $this->signIn();
-        $link = make('App\Link', ['title' => null]);
-        $response = $this->post(route('links.store'), $link->toArray());
-        $response->assertSessionHasErrors('title');
+        $this->publishLink(['title' => ''])
+             ->assertSessionHasErrors('title');
     }
 
+
+    /** @test **/
+    public function a_link_requires_a_url()
+    {
+        $this->publishLink(['url' => null])
+             ->assertSessionHasErrors('url');;
+    }
+
+
+    public function publishLink($data)
+    {
+        $this->signIn();
+        $link = make('App\Link', $data);
+        $response = $this->post(route('links.store'), $link->toArray());
+        return $response;
+    }
 
     // ASSERT THAT THE BASEURL() RETURNS URL AND NOT JUST A RONDOM STRING
 
