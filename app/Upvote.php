@@ -18,4 +18,13 @@ class Upvote extends Model
         return $this->belongsTo('App\Link');
     }
 
+
+    /*
+    public function total()
+    {
+        return $this->users()->count();
+    }
+    // test: upvote is not a negative num
+    */
+
 }
