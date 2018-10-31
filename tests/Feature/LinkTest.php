@@ -102,6 +102,15 @@ class LinkTest extends TestCase
 
 
     /** @test **/
+    public function a_links_title_should_not_be_too_long()
+    {
+        $response = $this->publishLink([
+            'title' => str_repeat('a', 56),
+        ])->assertSessionHasErrors(['title']);
+    }
+
+
+    /** @test **/
     public function a_link_requires_a_url()
     {
         $this->publishLink(['url' => null])
@@ -118,5 +127,5 @@ class LinkTest extends TestCase
     }
 
     // ASSERT THAT THE BASEURL() RETURNS URL AND NOT JUST A RONDOM STRING
-
+    
 }

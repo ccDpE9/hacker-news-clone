@@ -33,7 +33,7 @@ class LinkController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'bail|required|max:255',
+            'title' => 'bail|required|max:55',
             'url' => 'bail|required',
         ]);
 
