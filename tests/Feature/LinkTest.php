@@ -17,6 +17,7 @@ class LinkTest extends TestCase
     {
         parent::setUp();
         $this->link = factory('App\Link')->create();
+        $this->user = factory('App\User')->create();
     }
 
 
@@ -107,6 +108,22 @@ class LinkTest extends TestCase
         $response = $this->publishLink([
             'title' => str_repeat('a', 56),
         ])->assertSessionHasErrors(['title']);
+    }
+
+
+    /** @test **/
+    public function a_links_title_is_long_enough()
+    {
+        $response = $this->publishLink([
+            'title' => str_repeat('a', 55),
+            'url' => 'www.google.com',
+            'user_id' => $this->user->id,
+        ]);
+        $this->assertDatabaseHas('links', [
+            'title' => str_repeat('a', 55),
+        ]);
+        // used 302 because i redirect in LinkController
+        $response->assertStatus(302);
     }
 
 
