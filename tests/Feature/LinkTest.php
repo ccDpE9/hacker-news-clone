@@ -42,6 +42,7 @@ class LinkTest extends TestCase
     {
     }
 
+
     /** @test **/
     public function user_can_view_individual_link()
     {
@@ -134,6 +135,23 @@ class LinkTest extends TestCase
              ->assertSessionHasErrors('url');;
     }
 
+
+    /** @test **/
+    public function a_link_requires_valid_url()
+    {
+        collect([
+            'test.com',
+            'test',
+            'test.com+org'
+        ])->each(function ($invalidUrl) {
+            $this->publishLink([
+                'title' => 'Test',
+                'url' => $invalidUrl
+            ])->assertSessionHasErrors([
+                'url'
+            ]);
+        });
+    }
 
     public function publishLink($data)
     {

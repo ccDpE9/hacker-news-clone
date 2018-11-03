@@ -34,7 +34,7 @@ class LinkController extends Controller
     {
         $request->validate([
             'title' => 'bail|required|max:55',
-            'url' => 'bail|required',
+            'url' => 'bail|required|url',
         ]);
 
         $link = Link::create([
