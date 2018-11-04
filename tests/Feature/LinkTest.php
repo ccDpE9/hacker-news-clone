@@ -21,6 +21,8 @@ class LinkTest extends TestCase
     }
 
 
+    // --- CONTROLLERS --- //
+
     /** @test **/
     public function user_can_view_index_page()
     {
@@ -30,7 +32,7 @@ class LinkTest extends TestCase
 
 
     /** @test **/
-    public function user_can_view_links()
+    public function index_page_returns_single_link()
     {
         $this->get('/links')
             ->assertSee($this->link->title);
@@ -40,11 +42,39 @@ class LinkTest extends TestCase
     /** @test **/
     public function index_page_shows_all_links()
     {
+        $link1 = factory('App\Link')->create();
+        $link2 = factory('App\Link')->create();
+        $response = $this->get('/links');
+        //$response->assertStatus(200);
+        $this->assertViewHas($link1->title);
+        //$response->assertSee($links2->title);
     }
 
 
     /** @test **/
-    public function user_can_view_individual_link()
+    public function view_returns_404_when_link_not_found()
+    {
+        $response = $this->get('/links/' . 404);
+        $response->assertStatus(404);
+    }
+
+    /** @test **/
+    public function show_page_can_be_accessed_from_index_page()
+    {
+        $response = $this->get(route('links.index'));
+        //->clickLink('Title')
+        //->seePageIs(route('links.show'));
+        /*
+        $this->browse(function ($browser) as ($user) {
+            $browser->visit(route('links.index')
+                ->press('Comments');
+                ->assertPathIs(route('links.show'));
+        });
+         */
+    }
+
+    /** @test **/
+    public function show_page_returns_single_link()
     {
         $this->get('/links/' . $this->link->id)
             ->assertSee($this->link->title);
