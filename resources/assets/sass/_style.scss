@@ -15,9 +15,9 @@
 }
 
 html, body {
-  margin-top: 5px;
-  margin-left: 5%;
-  margin-right: 5%;
+  width: 1200px; 
+  margin: 0 auto;
+  line-height: 1.5;
 }
 
 /* --- UNIVERSAL --- */
@@ -39,12 +39,16 @@ a:active {
 }
 
 .icon {
-  width: 13px;
-  height: auto;
+  height: 13px;
+  width: auto;
 
   &--social {
-    width: 20px;
-    height: auto;
+    transition: color 0.5s;
+
+    &:hover {
+      fill: red;
+    }
+
   }
 
 }
@@ -52,7 +56,12 @@ a:active {
 /* --- HEADER ---*/
 
 .header-wrapper {
-  margin-bottom: 20px;
+  height: 60px;
+  padding: 5px;
+  width: 1200px;
+  position: fixed;
+  z-index: 15;
+  background-color: white;
 
   .logo {
     display: inline-block;
@@ -108,28 +117,46 @@ a:active {
 
 }
 
+main {
+  display: flex;
+}
+
+/* --- SIDEBAR --- */
+aside {
+  background-color: #f8f8f8;
+  width: 200px;
+  height: 100%;
+  top: 60px;
+  position: fixed;
+  bottom: 0px;
+  padding: 30px 0 10px;
+  z-index: 5;
+
+  ul {
+    li {
+      width: 100%;
+      a {
+	display: block;
+	width: 100%;
+	padding: 10px 20px;
+	color: #5c5c5c;
+	i {
+	  margin-right: 10px;
+	}
+      }
+    }
+  }
+}
+
+
 /* --- PAGE --- */
 
 .container {
-  background-color: #f6f6ef;
-
-  /* --- NAVBAR ---*/
-  .navbar {
-    width: 100%;
-    background-color: #ff6600;
-    color: black;
-
-    &__btn {
-      display: inline-block;
-      margin-right: 10px;
-
-    }
-
-    &__auth {
-      float: right;
-    }
-
-  }
+  background-color: #fdfdfd;
+  width: 100%;
+  float: left;
+  position: relative;
+  padding: 78px 0 0 200px;
 
   /* --- INDEX PAGE LISTS --- */
   .link {

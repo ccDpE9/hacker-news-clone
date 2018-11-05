@@ -46,13 +46,15 @@
                     </div>
                 </div>
                 <div class="link__social">
-                    <a class="link__btn link__comments" href="{{ route('links.show', $link->id) }}">Comments</a>
-                    <a href="#"><img src="/img/network.svg" class="icon--social" /></a>
-                    @if (auth()->user())
-                        <a class="link__btn link__upvote" href="#" class="link__upvote--btn"><img src="/img/star.svg" class="icon--social" /></a>
-                    @else
-                        <a class="link__btn link__upvote" href="{{ route('login') }}"><img src="/img/star.svg" class="icon--social" /></a>
-                    @endif
+                    <a class="link__btn link__comments" href="{{ route('links.show', $link->id) }}">
+                        <i class="fa fa-comment-o fa-lg icon--social"></i>
+                    </a>
+                    <a href="#">
+                        <i class="fa fa-share-alt fa-lg icon--social" aria-hidden="true"></i>
+                    </a>
+                    <a class="link__btn link__upvote" href="#" class="link__upvote--btn">
+                        <i class="fa fa-star-o fa-lg icon--social"></i>
+                    </a>
                 </div>
             </div>
         @endforeach

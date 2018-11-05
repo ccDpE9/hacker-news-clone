@@ -9,13 +9,17 @@
 
         @include ('partials._header')
 
-        <div class="container">
+        <main>
 
-            @include('partials._nav')
+            @include('layout._sidebar')
 
-            @yield('content')
+            <section class="container">
 
-        </div>
+                @yield('content')
+
+            </section>
+    
+        </main>
 
         @include('partials._scripts')
 
