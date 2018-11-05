@@ -26,7 +26,8 @@ class LinkTest extends TestCase
     /** @test **/
     public function user_can_view_index_page()
     {
-        $this->get('/links')
+        // $this->withoutExceptionHandling();
+        $this->get(route('links.index'))
             ->assertStatus(200);
     }
 
@@ -34,7 +35,7 @@ class LinkTest extends TestCase
     /** @test **/
     public function index_page_returns_single_link()
     {
-        $this->get('/links')
+        $this->get(route('links.index'))
             ->assertSee($this->link->title);
     }
 
@@ -44,10 +45,10 @@ class LinkTest extends TestCase
     {
         $link1 = factory('App\Link')->create();
         $link2 = factory('App\Link')->create();
-        $response = $this->get('/links');
-        //$response->assertStatus(200);
-        $this->assertViewHas($link1->title);
-        //$response->assertSee($links2->title);
+        $response = $this->get(route('links.index'));
+        $response->assertStatus(200);
+        $response->assertSee($link1->title);
+        $response->assertSee($link2->title);
     }
 
 

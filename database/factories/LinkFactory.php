@@ -4,11 +4,13 @@ use Faker\Generator as Faker;
 use App\Link;
 
 $factory->define(Link::class, function (Faker $faker) {
+    static $number = 0;
+    $user = factory('App\User')->create();
     return [
-        'id' => 0,
-        'title' => 'Test',
-        'url' => 'www.google.com',
-        'description' => 'Testing',
-        'user_id' => 0,
+        'id' => $number++,
+        'title' => $faker->sentence,
+        'url' => $faker->url,
+        'description' => $faker->text,
+        'user_id' => $user->id,
     ];
 });
