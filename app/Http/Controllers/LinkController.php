@@ -39,6 +39,7 @@ class LinkController extends Controller
 
         $link = Link::create([
             'title' => $request['title'],
+            'slug' => str_slug($request['title']),
             'url' => $request['url'],
             'description' => $request['description'],
             'user_id' => auth()->id(),
