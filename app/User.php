@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -25,6 +26,12 @@ class User extends Authenticatable
     public function likes()
     {
         return $this->hasMany('App\Upvote');
+    }
+
+
+    public function getLastLoginAttribute($value)
+    {
+        return \Carbon\Carbon::parse($value)->format('d.m.Y');
     }
 
 }
