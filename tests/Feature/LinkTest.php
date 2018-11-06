@@ -7,6 +7,10 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
+use Tests\DustTestCase;
+use Laravel\Dusk\Chrome;
+
+
 class LinkTest extends TestCase
 {
 
@@ -16,15 +20,14 @@ class LinkTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->link = factory('App\Link')->create();
-        $this->user = factory('App\User')->create();
+        $this->link = create('App\Link');
+        $this->user = create('App\User');
+
     }
 
 
-    // --- CONTROLLERS --- //
-
     /** @test **/
-    public function user_can_view_index_page()
+    function user_can_view_index_page()
     {
         // $this->withoutExceptionHandling();
         $this->get(route('links.index'))
@@ -33,7 +36,7 @@ class LinkTest extends TestCase
 
 
     /** @test **/
-    public function index_page_returns_single_link()
+    function index_page_returns_single_link()
     {
         $this->get(route('links.index'))
             ->assertSee($this->link->title);
@@ -41,7 +44,7 @@ class LinkTest extends TestCase
 
 
     /** @test **/
-    public function index_page_shows_all_links()
+    function index_page_shows_all_links()
     {
         $link1 = factory('App\Link')->create();
         $link2 = factory('App\Link')->create();
@@ -53,29 +56,31 @@ class LinkTest extends TestCase
 
 
     /** @test **/
-    public function view_returns_404_when_link_not_found()
+    function show_page_can_be_accessed_from_index_page()
     {
-        $response = $this->get('/links/' . 404);
-        $response->assertStatus(404);
-    }
-
-    /** @test **/
-    public function show_page_can_be_accessed_from_index_page()
-    {
-        $response = $this->get(route('links.index'));
+        //$response = $this->get(route('links.index'));
         //->clickLink('Title')
         //->seePageIs(route('links.show'));
         /*
-        $this->browse(function ($browser) as ($user) {
-            $browser->visit(route('links.index')
-                ->press('Comments');
+        $this->browse(function ($browser) use ($this->user) {
+            $browser->visit(route('links.index'))
+                ->press('Comments')
                 ->assertPathIs(route('links.show'));
         });
          */
     }
 
+
     /** @test **/
-    public function show_page_returns_single_link()
+    function view_returns_404_when_link_not_found()
+    {
+        $response = $this->get('/links/' . 404);
+        $response->assertStatus(404);
+    }
+
+
+    /** @test **/
+    function show_page_returns_single_link()
     {
         $this->get('/links/' . $this->link->id)
             ->assertSee($this->link->title);
@@ -83,19 +88,17 @@ class LinkTest extends TestCase
 
 
     /** @test **/
-    public function auth_user_can_post_link()
+    function auth_user_can_post_link()
     {
         $this->signIn();
-        // $link = factory('App\Link')->make();
-        // code above drops an error, why?
-        $this->post('/links/store', $this->link->toArray());
+        $this->post(route('links.store'), $this->link->toArray());
         $this->get('/links/' . $this->link->id)
             ->assertSee($this->link->title);
     }
 
 
     /** @test **/
-    public function non_authenticated_users_cannot_post_link()
+    function non_authenticated_users_cannot_post_link()
     {
         $this->post('/links/store', $this->link->toArray())
             ->assertStatus(405);
@@ -103,31 +106,23 @@ class LinkTest extends TestCase
 
 
     /** @test **/
-    public function a_link_can_be_deleted()
+    function link_must_have_a_user()
     {
-        $user = factory('App\User')->create();
-        $this->actingAs($user);
-        //$this->json('DELETE', $link->path());
+    }
+
+
+
+    /** @test **/
+    function a_link_can_be_deleted()
+    {
+        $this->signIn();
         $this->delete('/links/' . $this->link->id);
         $this->assertDatabaseMissing('links', ['id' => $this->link->id]);
     }
 
 
     /** @test **/
-    public function a_user_can_see_links_comments()
-    {
-        $comment = factory('App\Comment')
-            ->create([
-                'commentable_id' => $this->link->id,
-                'commentable_type' => 'App\Link',
-            ]);
-        $this->get('/links/' . $this->link->id)
-            ->assertSee($comment->body);
-    }
-
-
-    /** @test **/
-    public function a_link_requires_a_title()
+    function a_link_requires_a_title()
     {
         $this->publishLink(['title' => ''])
              ->assertSessionHasErrors('title');
@@ -135,7 +130,7 @@ class LinkTest extends TestCase
 
 
     /** @test **/
-    public function a_links_title_should_not_be_too_long()
+    function a_links_title_should_not_be_too_long()
     {
         $response = $this->publishLink([
             'title' => str_repeat('a', 56),
@@ -144,7 +139,7 @@ class LinkTest extends TestCase
 
 
     /** @test **/
-    public function a_links_title_is_long_enough()
+    function a_links_title_is_long_enough()
     {
         $response = $this->publishLink([
             'title' => str_repeat('a', 55),
@@ -160,7 +155,7 @@ class LinkTest extends TestCase
 
 
     /** @test **/
-    public function a_link_requires_a_url()
+    function a_link_requires_a_url()
     {
         $this->publishLink(['url' => null])
              ->assertSessionHasErrors('url');;
@@ -168,7 +163,7 @@ class LinkTest extends TestCase
 
 
     /** @test **/
-    public function a_link_requires_valid_url()
+    function a_link_requires_valid_url()
     {
         collect([
             'test.com',
@@ -184,7 +179,7 @@ class LinkTest extends TestCase
         });
     }
 
-    public function publishLink($data)
+    function publishLink($data)
     {
         $this->signIn();
         $link = make('App\Link', $data);
@@ -193,5 +188,38 @@ class LinkTest extends TestCase
     }
 
     // ASSERT THAT THE BASEURL() RETURNS URL AND NOT JUST A RONDOM STRING
+    // SLUG MUST BE UNIQUE
     
-}
+
+    /** @test **/
+    function a_link_has_a_reply()
+    {
+        $this->assertInstanceOf(
+            Comment::class, 
+            $link->comments->first()
+        );
+    }
+
+
+    /** @test **/
+    function a_link_has_replies()
+    {
+        $this->assertInstanceOf(
+            'Illuminate\Database\Eloquent\Collection', 
+            $this->link->comments
+        );
+    }
+
+
+    /** @test **/
+    function a_user_can_see_links_comments()
+    {
+        create('App\Comment', [
+                'commentable_id' => $this->link->id,
+                'commentable_type' => 'App\Link',
+        ]);
+        $this->get('/links/' . $this->link->id)
+            ->assertSee($comment->body);
+    }
+} 
+

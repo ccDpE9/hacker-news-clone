@@ -1,17 +1,18 @@
 <?php
 
+
 use Illuminate\Database\Seeder;
+
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
+
     public function run()
     {
-        $this->call(LinkSeeder::class);
-        $this->call(UserSeeder::class);
+        factory('App\User', 50)->create()->each(function ($user) {
+            $user->links()->save(factory('App\Link')->make());
+        });
     }
+
 }
+
