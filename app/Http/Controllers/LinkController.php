@@ -37,26 +37,20 @@ class LinkController extends Controller
             'url' => 'bail|required|url',
         ]);
 
+
         $link = Link::create([
             'title' => $request['title'],
-            'slug' => str_slug($request['title']),
             'url' => $request['url'],
             'description' => $request['description'],
             'user_id' => auth()->id(),
         ]);
 
-        return redirect()
-            ->route('links.show', $link->id);
+        return redirect()->route('links.show', [$link]);
     }
 
     // public function show(Link $link)
     public function show(Link $link)
     {
-        // link
-        $now = Carbon::now();
-        $end = Carbon::parse($link->created_at);
-        $diff = $end->diffForHumans($now);
-
         // comment
         // 1. load comments
         // where 'commentable_id' == $link->id AND parent_id == Null
@@ -65,12 +59,11 @@ class LinkController extends Controller
         // dd(gettype($comments[0]->replies));
         $comments = Comment::where('commentable_id', $link->id)->where('parent_id', Null)->get();
         // $end = Carbon::parse($comments->created_at);
-        
+
         // returned compacted
         // if i chain 4 withs, it'll look ugly
         return view('links.show')
             ->with('link', $link)
-            ->with('date', $diff)
             ->with('comments', $comments);
     }
 

@@ -8,7 +8,7 @@ class Link extends Model
 {
 
 
-    protected $fillable = ['title', 'url', 'description', 'user_id'];
+    protected $fillable = ['title', 'slug', 'url', 'description', 'user_id'];
 
 
     // is fired on each instantiation of the model
@@ -18,6 +18,8 @@ class Link extends Model
         parent::boot();
 
         // eloquent models fire several events, allowing you to hook into various points in the model's lifecycle
+
+
         // 'created' method is fired right after the record is created
         static::created(function ($link) {
             $link->update(['slug' => $link->title]);
@@ -32,6 +34,7 @@ class Link extends Model
         if (static::whereSlug($slug = str_slug($value))->exists()) {
             $slug = "{$slug}-{$this->id}";
         }
+
         $this->attributes['slug'] = $slug;
     }
 

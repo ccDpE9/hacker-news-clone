@@ -4,7 +4,7 @@
 
     <a href="{{ $link->url }}"><p>{{ $link->title }}</p></a>
     <p>{{ $link->description }}</p>
-    <p>{{ $date }}</p>
+    <p>{{ $link->created_at }}</p>
     @include('comments.create', ['link_id' => $link->id])
 
     @foreach ($comments as $comment)
