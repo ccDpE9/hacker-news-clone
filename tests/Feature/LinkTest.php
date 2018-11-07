@@ -179,6 +179,20 @@ class LinkTest extends TestCase
         });
     }
 
+
+    /** @test **/
+    function two_links_wont_have_a_same_slug_even_if_their_titles_are_the_same()
+    {
+        $link1 = create('App\Link', [
+            'title' => 'test',
+        ]);
+        $link2 = create('App\Link', [
+            'title' => 'test',
+        ]);
+        $this->assertNotEquals($link1->slug, $link2->slug);
+    }
+
+
     function publishLink($data)
     {
         $this->signIn();
