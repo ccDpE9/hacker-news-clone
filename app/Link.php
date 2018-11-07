@@ -18,6 +18,11 @@ class Link extends Model
         parent::boot();
 
         // eloquent models fire several events, allowing you to hook into various points in the model's lifecycle
+        
+        // called before delete() method
+        static::deleting(function ($link) {
+            $link->comments()->delete();
+        });
 
 
         // 'created' method is fired right after the record is created
