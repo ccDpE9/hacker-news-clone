@@ -38,7 +38,7 @@
                         </span>
                         <span>
                             <img src="/img/time.svg" class="icon" />
-                            {{ $link->date() }}
+                            {{ $link->created_at }}
                         </span>
                         <span>
                             <a class="link__btn link__url" href="{{ $link->url }}" target="_blank">{{ $link->baseUrl() }}</a>
