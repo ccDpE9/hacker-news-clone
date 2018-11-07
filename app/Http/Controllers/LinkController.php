@@ -13,7 +13,7 @@ class LinkController extends Controller
 {
 
     public function __construct() {
-        $this->middleware('auth')->only('create', 'create');
+        $this->middleware('auth')->only('create');
     }
 
 
@@ -79,7 +79,7 @@ class LinkController extends Controller
 
     public function destroy(Link $link)
     {
-        $link->delete();
+        //
     }
 
     public function search(Request $request)

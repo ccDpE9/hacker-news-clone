@@ -90,42 +90,27 @@ class LinkTest extends TestCase
     /** @test **/
     function auth_user_can_post_link()
     {
-        $this->signIn();
-        $this->post(route('links.store'), $this->link->toArray());
-        $this->get('/links/' . $this->link->id)
-            ->assertSee($this->link->title);
+        $link = create('App\Link', [
+            'user_id' => $this->user->id,
+        ]);
+        $this->get('/links/' . $link->slug)
+            ->assertSee($link->title);
     }
 
 
     /** @test **/
-    function non_authenticated_users_cannot_post_link()
+    function non_authenticated_users_cannot_access_create_view()
     {
-        $this->post('/links/store', $this->link->toArray())
-            ->assertStatus(405);
+        $this->get(route('links.create'))
+             ->assertRedirect(route('login'));
     }
 
 
     /** @test **/
-    function link_must_have_a_user()
+    function link_must_have_a_title()
     {
-    }
-
-
-
-    /** @test **/
-    function a_link_can_be_deleted()
-    {
-        $this->signIn();
-        $this->delete('/links/' . $this->link->id);
-        $this->assertDatabaseMissing('links', ['id' => $this->link->id]);
-    }
-
-
-    /** @test **/
-    function a_link_requires_a_title()
-    {
-        $this->publishLink(['title' => ''])
-             ->assertSessionHasErrors('title');
+        $this->publishLink(['title' => null])
+            ->assertSessionHasErrors('title');
     }
 
 
@@ -143,8 +128,6 @@ class LinkTest extends TestCase
     {
         $response = $this->publishLink([
             'title' => str_repeat('a', 55),
-            'url' => 'www.google.com',
-            'user_id' => $this->user->id,
         ]);
         $this->assertDatabaseHas('links', [
             'title' => str_repeat('a', 55),
@@ -155,7 +138,21 @@ class LinkTest extends TestCase
 
 
     /** @test **/
-    function a_link_requires_a_url()
+    function link_must_have_a_user()
+    {
+        $this->publishLink(['user_id' => null])
+            ->assertSessionHasErrors('user_id');
+    }
+
+
+    /** @test **/
+    function a_link_can_be_deleted()
+    {
+    }
+
+
+    /** @test **/
+    function a_link_must_have_a_url()
     {
         $this->publishLink(['url' => null])
              ->assertSessionHasErrors('url');;
@@ -197,20 +194,19 @@ class LinkTest extends TestCase
     {
         $this->signIn();
         $link = make('App\Link', $data);
-        $response = $this->post(route('links.store'), $link->toArray());
-        return $response;
+        return $this->post(route('links.store'), $link->toArray());
     }
 
-    // ASSERT THAT THE BASEURL() RETURNS URL AND NOT JUST A RONDOM STRING
-    // SLUG MUST BE UNIQUE
-    
 
     /** @test **/
     function a_link_has_a_reply()
     {
+        create('App\Comment', [
+            'commentable_id' => $this->link->id,
+        ]);
         $this->assertInstanceOf(
-            Comment::class, 
-            $link->comments->first()
+            \App\Comment::class, 
+            $this->link->comments->first()
         );
     }
 
@@ -226,13 +222,19 @@ class LinkTest extends TestCase
 
 
     /** @test **/
-    function a_user_can_see_links_comments()
+    function if_link_is_deleted_its_comments_are_deleted_too()
     {
-        create('App\Comment', [
+    }
+
+
+    /** @test **/
+    function show_page_includes_links_comments()
+    {
+        $comment = create('App\Comment', [
                 'commentable_id' => $this->link->id,
                 'commentable_type' => 'App\Link',
         ]);
-        $this->get('/links/' . $this->link->id)
+        $this->get('/links/' . $this->link->slug)
             ->assertSee($comment->body);
     }
 } 

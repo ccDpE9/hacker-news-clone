@@ -32,6 +32,9 @@ $factory->define(Link::class, function (Faker $faker) {
 
 $factory->define(Comment::class, function (Faker $faker) {
     return [
+        'user_id' => function() {
+            return factory('App\User')->create()->id;
+        },
         'parent_id' => Null,
         'body' => 'Comment',
         'commentable_id' => function() {
