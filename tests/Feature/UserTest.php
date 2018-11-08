@@ -34,4 +34,63 @@ class UserTest extends TestCase
         $this->assertInstanceOf('App\Link', $user->links->first());
     }
 
+
+    /** @test **/
+    public function the_name_is_required()
+    {
+        $this->post(
+            route('register'),
+            $this->userValidData(['name' => null])
+        )->assertSessionHasErrors('name');
+    }
+
+
+    /** @test **/
+    public function the_name_must_be_unique()
+    {
+        create('App\User', [
+            'name' => 'Knever'
+        ]);
+        $this->post(
+            route('register'),
+            $this->userValidData()
+        )->assertSessionHasErrors('name');
+    }
+
+
+    /** @test **/
+    public function the_email_must_be_unique()
+    {
+        create('App\User', [
+            'email' => 'example@gmail.com'
+        ]);
+        $this->post(
+            route('register'),
+            $this->userValidData()
+        )->assertSessionHasErrors('email');
+    }
+
+
+    /** @test **/
+    public function the_name_may_not_be_greater_than_60_chars_long()
+    {
+        $this->post(
+            route('register'),
+            $this->userValidData(['name' => str_random(61)])
+        )->assertSessionHasErrors('name');
+    }
+    
+
+    public function userValidData($overrides = [])
+    {
+        return array_merge([
+            'name' => 'Knever',
+            'first_name' => 'Sibylle',
+            'last_name' => 'Baier',
+            'email' => 'example@gmail.com',
+            'password' => 'secret',
+            'password_confirmation' => 'secret'
+        ], $overrides);
+    }
+
 }
