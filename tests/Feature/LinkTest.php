@@ -29,7 +29,6 @@ class LinkTest extends TestCase
     /** @test **/
     function user_can_view_index_page()
     {
-        // $this->withoutExceptionHandling();
         $this->get(route('links.index'))
             ->assertStatus(200);
     }
@@ -58,16 +57,16 @@ class LinkTest extends TestCase
     /** @test **/
     function view_returns_404_when_link_not_found()
     {
-        $response = $this->get('/links/' . 404);
-        $response->assertStatus(404);
+        $this->get('/links/' . 404)
+             ->assertStatus(404);
     }
 
 
     /** @test **/
     function show_page_returns_single_link()
     {
-        $this->get('/links/' . $this->link->slug)
-            ->assertSee($this->link->title);
+        $this->get(route('links.show', $this->link))
+             ->assertSee($this->link->title);
     }
 
 
@@ -77,7 +76,8 @@ class LinkTest extends TestCase
         $link = create('App\Link', [
             'user_id' => $this->user->id,
         ]);
-        $this->get('/links/' . $link->slug)
+        $this->withoutExceptionHandling();
+        $this->get(route('links.show', $link))
             ->assertSee($link->title);
     }
 
@@ -91,14 +91,24 @@ class LinkTest extends TestCase
 
 
     /** @test **/
-    function non_authenticated_users_may_not_delete_links()
+    function non_authenticated_users_may_not_delete_link()
     {
-        $link = create('App\Link');
-        $this->delete('/links/' . $link->slug)
+        $this->delete(route('links.show'), $this->link)
             ->assertRedirect(route('login'));
     }
 
     
+    /** @test **/
+    function unauthorized_user_may_not_delete_link()
+    {
+        $this->withoutExceptionHandling();
+        $this->signIn();
+        $this->delete(route('links.show', $this->link))
+            ->assertStatus(403);
+        $this->redirect(route('links.index'));
+    }
+
+
     /** @test **/
     function link_must_have_a_title()
     {
@@ -221,8 +231,7 @@ class LinkTest extends TestCase
                 'commentable_id' => $this->link->id,
                 'commentable_type' => 'App\Link',
         ]);
-        $this->get('/links/' . $this->link->slug)
+        $this->get(route('links.show', $this->link))
             ->assertSee($comment->body);
     }
 } 
-
