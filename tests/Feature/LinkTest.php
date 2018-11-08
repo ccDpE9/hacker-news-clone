@@ -56,22 +56,6 @@ class LinkTest extends TestCase
 
 
     /** @test **/
-    function show_page_can_be_accessed_from_index_page()
-    {
-        //$response = $this->get(route('links.index'));
-        //->clickLink('Title')
-        //->seePageIs(route('links.show'));
-        /*
-        $this->browse(function ($browser) use ($this->user) {
-            $browser->visit(route('links.index'))
-                ->press('Comments')
-                ->assertPathIs(route('links.show'));
-        });
-         */
-    }
-
-
-    /** @test **/
     function view_returns_404_when_link_not_found()
     {
         $response = $this->get('/links/' . 404);
@@ -82,7 +66,7 @@ class LinkTest extends TestCase
     /** @test **/
     function show_page_returns_single_link()
     {
-        $this->get('/links/' . $this->link->id)
+        $this->get('/links/' . $this->link->slug)
             ->assertSee($this->link->title);
     }
 
@@ -106,6 +90,15 @@ class LinkTest extends TestCase
     }
 
 
+    /** @test **/
+    function non_authenticated_users_may_not_delete_links()
+    {
+        $link = create('App\Link');
+        $this->delete('/links/' . $link->slug)
+            ->assertRedirect(route('login'));
+    }
+
+    
     /** @test **/
     function link_must_have_a_title()
     {
@@ -142,12 +135,6 @@ class LinkTest extends TestCase
     {
         $this->publishLink(['user_id' => null])
             ->assertSessionHasErrors('user_id');
-    }
-
-
-    /** @test **/
-    function a_link_can_be_deleted()
-    {
     }
 
 
