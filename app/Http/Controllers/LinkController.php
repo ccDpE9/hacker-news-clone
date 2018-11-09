@@ -13,25 +13,31 @@ class LinkController extends Controller
 {
 
     public function __construct() {
-        $this->middleware('auth')->only('create', 'destroy');
+        $this->middleware('auth')->except([
+            'index', 
+            'show',
+            'create'
+        ]);
     }
 
 
     public function index()
     {
-        $links = Link::with('user')
-            ->get();
+        $links = Link::with('user') ->get();
         return view('links.index')
             ->with('links', $links);
     }
+
 
     public function create()
     {
         return view('links.create');
     }
 
+
     public function store(Request $request)
     {
+
         $request->validate([
             'title' => 'bail|required|max:55',
             'url' => 'bail|required|url',
@@ -45,8 +51,9 @@ class LinkController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        return redirect()->route('links.show', [$link]);
+        return redirect()->route('links.show', $link);
     }
+
 
     // public function show(Link $link)
     public function show(Link $link)
@@ -67,20 +74,26 @@ class LinkController extends Controller
             ->with('comments', $comments);
     }
 
+
     public function edit(Link $link)
     {
         //
     }
+
 
     public function update(Request $request, Link $link)
     {
         //
     }
 
+
     public function destroy(Link $link)
     {
-        //
+        $this->authorize('update', $link);
+        $link->delete();
+        return redirect(route('links.index'));
     }
+
 
     public function search(Request $request)
     {

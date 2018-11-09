@@ -112,6 +112,14 @@ class LinkTest extends TestCase
 
 
     /** @test **/
+    function unauthorized_users_may_not_delete_links()
+    {
+        $this->signIn();
+        $this->delete(route('links.show', $this->link))
+            ->assertStatus(403);
+    }
+
+    /** @test **/
     function link_must_have_a_title()
     {
         $this->publishLink(['title' => null])
