@@ -4,45 +4,18 @@
 
     <div class="create-link">
 
-        {{ Form::open([
-            'route' => 'links.store',
-            'class' => 'link-form']) }}
-
-            {{ Form::text(
-                'title',
-                null,
-                ['placeholder' => 'Title...'],
-                ['class' => 'link-form__title']) }}
-
-            {{ Form::text(
-                'url',
-                null,
-                ['placeholder' => 'Url..'],
-                ['class' => 'link-form__url']) }}
-
-            {{ Form::textarea(
-                'description',
-                null,
-                ['placeholder' => 'Text...'],
-                ['class' => 'link-form__description']) }}
-    
-            {{ Form::submit('Create') }}
-
-        {{ Form::close() }}
+        <form class="link-form" method="POST" action="{{ route('links.store') }}">
+            {{ csrf_field() }}
+            <p class="link-form__input--error">{{ $errors->first('title') }}</p>
+            <input type="text" class="link-form__title link-form__input" name="title" placeholder="Title..." required>
+            <p class="link-form__input--error">{{ $errors->first('url') }}</p>
+            <input type="text" class="link-form__url link-form__input" name="url" placeholder="Url..." required>
+            <p class="link-form__input--error">{{ $errors->first('description') }}</p>
+            <textarea class="link-form__input link-form__description" name="description" placeholder="Description..."></textarea>
+            <button type="submit" class="link-form__btn">Create</button>
+        </form>
 
 
-        @if ($errors->any())
-            <div>
-                <p>Opps, something went wrong.</p>
-                <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-                </ul>
-            </div>
-        @endif
-
-
-    </div>
+</div>
 
 @endsection

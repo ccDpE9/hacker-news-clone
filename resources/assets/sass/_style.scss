@@ -247,3 +247,71 @@ aside {
   }
 
 }
+
+
+
+// --- CREATE LINK FORM --- //
+
+.link-form {
+  width: 70%;
+  margin: 0 auto;
+  font-size: 14px;
+  line-height: 21px;
+
+  &__input {
+    display: block;
+    resize: none;
+    box-sizing: border-box;
+    overflow: hidden;
+    border: 1px solid rgb(237, 239, 241);
+    border-radius: 5px;
+    width: 100%;
+    padding: 8px 16px;
+    margin-bottom: 8px;
+    color: rgb(28, 28, 28);
+    background-color: transparent;
+
+    &--error {
+      color: #fe5454;
+      padding: 8px 0;
+    }
+
+  }
+
+  &__title {
+    height: 39px;
+  }
+
+  &__url {
+    height: 39px;
+  }
+
+  &__description {
+    height: 117px; 
+  }
+
+  &__btn {
+    display: block;
+    float: right;
+    border: 1px solid #FF742B;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 3px 16px;
+    color: rgb(237, 239, 241);
+    background-color: #FF742B;
+    transition: background-color .5s;
+
+    &:hover {
+      opacity: 0.7;
+    }
+
+  }
+  
+}
+
+

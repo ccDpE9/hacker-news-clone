@@ -225,3 +225,64 @@ aside ul li a i {
   opacity: 0.8;
 }
 
+.link-form {
+  width: 70%;
+  margin: 0 auto;
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.link-form__input {
+  display: block;
+  resize: none;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  overflow: hidden;
+  border: 1px solid #edeff1;
+  border-radius: 5px;
+  width: 100%;
+  padding: 8px 16px;
+  margin-bottom: 8px;
+  color: #1c1c1c;
+  background-color: transparent;
+}
+
+.link-form__input--error {
+  color: #fe5454;
+  padding: 8px 0;
+}
+
+.link-form__title {
+  height: 39px;
+}
+
+.link-form__url {
+  height: 39px;
+}
+
+.link-form__description {
+  height: 117px;
+}
+
+.link-form__btn {
+  display: block;
+  float: right;
+  border: 1px solid #FF742B;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 3px 16px;
+  color: #edeff1;
+  background-color: #FF742B;
+  -webkit-transition: background-color .5s;
+  transition: background-color .5s;
+}
+
+.link-form__btn:hover {
+  opacity: 0.7;
+}
+
