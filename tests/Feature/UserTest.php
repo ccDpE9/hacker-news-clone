@@ -13,6 +13,33 @@ class UserTest extends TestCase
     use DatabaseMigrations;
 
 
+    public function setUp()
+    {
+        parent::setUp();
+        $this->user = create('App\User');
+    }
+
+
+    /** @test **/
+    public function user_has_a_link()
+    {
+        $this->assertInstanceOf(
+            \App\Link::class,
+            $this->user->links->first()
+        );
+    }
+
+
+    /** @test **/
+    public function user_has_many_links()
+    {
+        $this->assertInstanceOf(
+            'Illuminate\Database\Eloquent\Collection', 
+            $this->user->links
+        );
+    }
+
+
     /** @test **/
     public function user_can_view_a_login_form()
     {

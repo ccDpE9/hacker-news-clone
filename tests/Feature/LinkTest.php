@@ -101,11 +101,12 @@ class LinkTest extends TestCase
     /** @test **/
     function unauthorized_user_may_not_delete_link()
     {
-        $this->withoutExceptionHandling();
-        $this->signIn();
-        $this->delete(route('links.show', $this->link))
+        $this->signIn($this->user);
+        $link = create('App\Link', [
+            'user_id' => $this->user->id,
+        ]);
+        $this->delete(route('links.show', $link))
             ->assertStatus(403);
-        $this->redirect(route('links.index'));
     }
 
 
