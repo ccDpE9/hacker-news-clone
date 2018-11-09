@@ -45,8 +45,8 @@ class LinkTest extends TestCase
     /** @test **/
     function index_page_shows_all_links()
     {
-        $link1 = factory('App\Link')->create();
-        $link2 = factory('App\Link')->create();
+        $link1 = create('App\Link');
+        $link2 = create('App\Link');
         $response = $this->get(route('links.index'));
         $response->assertStatus(200);
         $response->assertSee($link1->title);
@@ -83,7 +83,7 @@ class LinkTest extends TestCase
 
 
     /** @test **/
-    function non_authenticated_users_cannot_access_create_view()
+    function unauthenticated_users_cannot_access_create_view()
     {
         $this->get(route('links.create'))
              ->assertRedirect(route('login'));
@@ -93,7 +93,7 @@ class LinkTest extends TestCase
     /** @test **/
     function non_authenticated_users_may_not_delete_link()
     {
-        $this->delete(route('links.show'), $this->link)
+        $this->delete(route('links.show', $this->link))
             ->assertRedirect(route('login'));
     }
 
@@ -101,7 +101,6 @@ class LinkTest extends TestCase
     /** @test **/
     function authorized_users_may_delete_links()
     {
-        $this->withoutExceptionHandling();
         $this->signIn($this->user);
         $link = create('App\Link', [
             'user_id' => $this->user->id,
@@ -154,7 +153,7 @@ class LinkTest extends TestCase
     function link_must_have_a_user()
     {
         $this->publishLink(['user_id' => null])
-            ->assertSessionHasErrors('user_id');
+            ->assertSessionHasErrors();
     }
 
 
@@ -231,6 +230,15 @@ class LinkTest extends TestCase
     /** @test **/
     function if_link_is_deleted_its_comments_are_deleted_too()
     {
+        $this->signIn($this->user);
+        $link = create('App\Link', [
+            'user_id' => $this->user->id
+        ]);
+        $comment = create('App\Comment', [
+            'commentable_id' => $link->id
+        ]);
+        $this->delete(route('links.show', $link));
+        $this->assertDatabaseMissing('comments', $comment->toArray());
     }
 
 

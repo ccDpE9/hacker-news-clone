@@ -16,7 +16,6 @@ class LinkController extends Controller
         $this->middleware('auth')->except([
             'index', 
             'show',
-            'create'
         ]);
     }
 
