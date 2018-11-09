@@ -97,16 +97,17 @@ class LinkTest extends TestCase
             ->assertRedirect(route('login'));
     }
 
-    
+
     /** @test **/
-    function unauthorized_user_may_not_delete_link()
+    function authorized_users_may_delete_links()
     {
+        $this->withoutExceptionHandling();
         $this->signIn($this->user);
         $link = create('App\Link', [
             'user_id' => $this->user->id,
         ]);
         $this->delete(route('links.show', $link))
-            ->assertStatus(403);
+            ->assertStatus(302);
     }
 
 
