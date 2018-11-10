@@ -26,6 +26,9 @@ class LinkTest extends TestCase
     }
 
 
+    // --- INDEX --- //
+
+
     /** @test **/
     function user_can_view_index_page()
     {
@@ -33,14 +36,12 @@ class LinkTest extends TestCase
             ->assertStatus(200);
     }
 
-
     /** @test **/
     function index_page_returns_single_link()
     {
         $this->get(route('links.index'))
             ->assertSee($this->link->title);
     }
-
 
     /** @test **/
     function index_page_shows_all_links()
@@ -54,13 +55,15 @@ class LinkTest extends TestCase
     }
 
 
+    // --- SHOW --- //
+
+
     /** @test **/
-    function view_returns_404_when_link_not_found()
+    function show_view_returns_404_when_link_not_found()
     {
         $this->get('/links/' . 404)
              ->assertStatus(404);
     }
-
 
     /** @test **/
     function show_page_returns_single_link()
@@ -69,6 +72,18 @@ class LinkTest extends TestCase
              ->assertSee($this->link->title);
     }
 
+
+    // --- CREATE --- //
+    
+    /** @test **/
+    function unauthenticated_users_cannot_access_create_view()
+    {
+        $this->get(route('links.create'))
+             ->assertRedirect(route('login'));
+    }
+
+
+    // --- STORE --- //
 
     /** @test **/
     function auth_user_can_post_link()
@@ -82,16 +97,25 @@ class LinkTest extends TestCase
     }
 
 
+    // --- UPDATE --- //
+
     /** @test **/
-    function unauthenticated_users_cannot_access_create_view()
+    function authorized_users_can_update_links()
     {
-        $this->get(route('links.create'))
-             ->assertRedirect(route('login'));
+        $this->signIn($this->user);
+        $link = create('App\Link', [
+            'user_id' => $this->user->id
+        ]);
+        $this->put(route('links.update', $link))
+            ->assertStatus(302); 
     }
 
 
+
+    // --- DESTROY --- //
+
     /** @test **/
-    function non_authenticated_users_may_not_delete_link()
+    function non_authenticated_users_cannot_access_delete_view()
     {
         $this->delete(route('links.show', $this->link))
             ->assertRedirect(route('login'));
@@ -117,6 +141,10 @@ class LinkTest extends TestCase
         $this->delete(route('links.show', $this->link))
             ->assertStatus(403);
     }
+
+
+    // --- VALIDATION --- //
+
 
     /** @test **/
     function link_must_have_a_title()
@@ -204,27 +232,7 @@ class LinkTest extends TestCase
     }
 
 
-    /** @test **/
-    function a_link_has_a_reply()
-    {
-        create('App\Comment', [
-            'commentable_id' => $this->link->id,
-        ]);
-        $this->assertInstanceOf(
-            \App\Comment::class, 
-            $this->link->comments->first()
-        );
-    }
-
-
-    /** @test **/
-    function a_link_has_replies()
-    {
-        $this->assertInstanceOf(
-            'Illuminate\Database\Eloquent\Collection', 
-            $this->link->comments
-        );
-    }
+    // --- LINK-COMMENT RELATION ---///
 
 
     /** @test **/

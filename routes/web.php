@@ -3,9 +3,7 @@
 
 // --- LINKS --- //
 
-Route::resource('/links', 'LinkController')->only([
-    'index', 'create', 'store', 'show', 'destroy',
-]);
+Route::resource('/links', 'LinkController');
 Route::get('/search', 'LinkController@search')->name('links.search');
 
 

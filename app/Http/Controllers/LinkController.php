@@ -42,7 +42,6 @@ class LinkController extends Controller
             'url' => 'bail|required|url',
         ]);
 
-
         $link = Link::create([
             'title' => $request['title'],
             'url' => $request['url'],
@@ -82,7 +81,9 @@ class LinkController extends Controller
 
     public function update(Request $request, Link $link)
     {
-        //
+        $this->authorize('update', $link);
+        $link->update($request->all());
+        return redirect(route('links.show', $link));
     }
 
 
@@ -90,7 +91,7 @@ class LinkController extends Controller
     {
         $this->authorize('update', $link);
         $link->delete();
-        return redirect(route('links.index'));
+        // return redirect(route('links.index'));
     }
 
 
