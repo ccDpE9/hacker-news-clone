@@ -100,7 +100,7 @@ class LinkTest extends TestCase
     // --- UPDATE --- //
 
     /** @test **/
-    function authorized_users_can_update_links()
+    function authorized_users_may_update_links()
     {
         $this->signIn($this->user);
         $link = create('App\Link', [
@@ -111,16 +111,16 @@ class LinkTest extends TestCase
     }
 
 
-
-    // --- DESTROY --- //
-
     /** @test **/
-    function non_authenticated_users_cannot_access_delete_view()
+    function unauthorized_users_may_not_update_links()
     {
-        $this->delete(route('links.show', $this->link))
-            ->assertRedirect(route('login'));
+        $this->signIn();
+        $this->put(route('links.update', $this->link))
+            ->assertStatus(403);
     }
 
+
+    // --- DESTROY --- //
 
     /** @test **/
     function authorized_users_may_delete_links()
