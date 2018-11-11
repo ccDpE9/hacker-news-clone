@@ -3,8 +3,11 @@
 @section('content')
 
     <a href="{{ $link->url }}"><p>{{ $link->title }}</p></a>
+    <div>
+        <span>{{ $link->user->name }}</span>
+        <span>{{ $link->created_at }}</span>
+    </div>
     <p>{{ $link->description }}</p>
-    <p>{{ $link->created_at }}</p>
     @include('comments.create', ['link_id' => $link->id])
 
     @foreach ($comments as $comment)

@@ -315,3 +315,21 @@ aside {
 }
 
 
+// --- COMMENT-FORM --- //
+.comment-form {
+
+  &__body {
+    display: block;
+    resize: none;
+    box-sizing: border-box;
+    overflow: hidden;
+    border: 1px solid rgb(237, 239, 241);
+    border-radius: 5px;
+    width: 100%;
+    padding: 8px 16px;
+    margin-bottom: 8px;
+    color: rgb(28, 28, 28);
+    background-color: transparent;
+  }
+
+}

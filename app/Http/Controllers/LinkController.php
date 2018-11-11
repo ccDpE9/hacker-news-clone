@@ -75,14 +75,19 @@ class LinkController extends Controller
 
     public function edit(Link $link)
     {
-        //
+        $this->authorize('update', $link);
+        return view('links.edit')
+            ->with('link', $link);
     }
 
 
     public function update(Request $request, Link $link)
     {
         $this->authorize('update', $link);
-        $link->update($request->all());
+        $link->update($request()->validate([
+            'title' => 'required',
+            'body' => 'required',
+        ]));
         return redirect(route('links.show', $link));
     }
 
@@ -91,7 +96,7 @@ class LinkController extends Controller
     {
         $this->authorize('update', $link);
         $link->delete();
-        // return redirect(route('links.index'));
+        return redirect(route('links.index'));
     }
 
 
