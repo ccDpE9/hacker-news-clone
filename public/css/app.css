@@ -3,8 +3,8 @@
 *::before {
   margin: 0;
   padding: 0;
-  -webkit-box-sizing: inherit;
-          box-sizing: inherit;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 .clearfix:after {
@@ -110,15 +110,19 @@ a:active {
 }
 
 main {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  float: left;
+  position: relative;
+  width: 100%;
+  margin-top: 100px;
+  padding: 78px 0 0 200px;
 }
 
 /* --- SIDEBAR --- */
 
 aside {
   background-color: #f8f8f8;
+  left: 50%;
+  margin-left: -600px;
   width: 200px;
   height: 100%;
   top: 60px;
@@ -147,10 +151,7 @@ aside ul li a i {
 
 .container {
   background-color: #fdfdfd;
-  width: 100%;
-  float: left;
   position: relative;
-  padding: 78px 0 0 200px;
   /* --- INDEX PAGE LISTS --- */
   /* --- COMMENTS --- */
 }
@@ -160,6 +161,7 @@ aside ul li a i {
   display: -ms-flexbox;
   display: flex;
   padding: 0 30px;
+  width: 100%;
   border-bottom: solid 1px #eee;
 }
 
@@ -284,5 +286,20 @@ aside ul li a i {
 
 .link-form__btn:hover {
   opacity: 0.7;
+}
+
+.comment-form__body {
+  display: block;
+  resize: none;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  overflow: hidden;
+  border: 1px solid #edeff1;
+  border-radius: 5px;
+  width: 100%;
+  padding: 8px 16px;
+  margin-bottom: 8px;
+  color: #1c1c1c;
+  background-color: transparent;
 }
 

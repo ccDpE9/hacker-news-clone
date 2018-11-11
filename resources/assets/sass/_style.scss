@@ -3,7 +3,7 @@
 *::before {
   margin: 0;
   padding: 0;
-  box-sizing: inherit;
+  box-sizing: border-box;
 }
 
 .clearfix:after {
@@ -118,12 +118,19 @@ a:active {
 }
 
 main {
-  display: flex;
+  float: left;
+  position: relative;
+  width: 100%;
+  margin-top: 100px;
+  padding: 78px 0 0 200px;
 }
+
 
 /* --- SIDEBAR --- */
 aside {
   background-color: #f8f8f8;
+  left: 50%;
+  margin-left: -600px;
   width: 200px;
   height: 100%;
   top: 60px;
@@ -153,15 +160,13 @@ aside {
 
 .container {
   background-color: #fdfdfd;
-  width: 100%;
-  float: left;
   position: relative;
-  padding: 78px 0 0 200px;
 
   /* --- INDEX PAGE LISTS --- */
   .link {
     display: flex;
     padding: 0 30px;
+    width: 100%;
     border-bottom: solid 1px #eee;
 
     &__info {
