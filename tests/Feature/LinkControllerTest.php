@@ -88,12 +88,15 @@ class LinkTest extends TestCase
     /** @test **/
     function auth_user_can_post_link()
     {
-        $link = create('App\Link', [
+        $this->signIn($this->user);
+        $link = make('App\Link', [
             'user_id' => $this->user->id,
         ]);
-        $this->withoutExceptionHandling();
-        $this->get(route('links.show', $link))
-            ->assertSee($link->title);
+        $this->post(route('links.store', $link->toArray()));
+        $this->assertDatabaseHas('links', [
+            'title' => $link->title,
+            'description' => $link->description,
+        ]);
     }
 
 
@@ -131,6 +134,7 @@ class LinkTest extends TestCase
         ]);
         $this->delete(route('links.show', $link))
             ->assertStatus(302);
+        $this->assertDatabaseMissing('links', $link->toArray());
     }
 
 
@@ -233,7 +237,6 @@ class LinkTest extends TestCase
 
 
     // --- LINK-COMMENT RELATION ---///
-
 
     /** @test **/
     function if_link_is_deleted_its_comments_are_deleted_too()
