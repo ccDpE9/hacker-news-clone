@@ -97,27 +97,14 @@ class CommentTest extends TestCase
     // --- VALIDATION --- //
     
     /** @test **/
-    public function body_is_required()
+    public function body_and_link_id_are_required()
     {
         $this->signIn();
         $comment = [
-            'link_id' => 2
         ];
         $this->post(route('comments.store', $comment))
-            ->assertSessionHasErrors('body');
+            ->assertSessionHasErrors(['body', 'link_id']);
     }
-
-    /** @test **/
-    public function link_id_field_is_required_on_comment_submission()
-    {
-        $this->signIn();
-        $comment = [
-            'body' => 'Comment'
-        ];
-        $this->post(route('comments.store', $comment))
-            ->assertSessionHasErrors('link_id');
-    }   
-
 
     /** @test **/
     public function link_id_must_be_an_integer()
@@ -130,5 +117,28 @@ class CommentTest extends TestCase
         $this->post(route('comments.store', $comment))
             ->assertSessionHasErrors('link_id');
     }
+
+    /** @test **/
+    public function body_commentId_and_linkId_are_required_on_reply()
+    {
+        $this->signIn();
+        $comment = [];
+        $this->post(route('reply.store', $comment))
+            ->assertSessionHasErrors(['body', 'link_id', 'comment_id']);
+    }
+
+    /** @test **/
+    public function linkId_and_commentId_must_be_int()
+    {
+        $this->signIn();
+        $comment = [
+            'body' => 'Comment',
+            'link_id' => 'String',
+            'comment_id' => 'String'
+        ];
+        $this->post(route('reply.store', $comment))
+            ->assertSessionHasErrors(['link_id', 'comment_id']);
+    }
+
 
 }

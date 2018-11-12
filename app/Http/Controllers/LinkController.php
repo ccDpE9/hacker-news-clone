@@ -47,8 +47,7 @@ class LinkController extends Controller
             'url' => $request['url'],
             'description' => $request['description'],
             'user_id' => auth()->id(),
-        ]);
-
+        ]); 
         return redirect()->route('links.show', $link);
     }
 
