@@ -23,7 +23,7 @@ class CommentController extends Controller
         $link = Link::find($request['link_id']);
         $link->comments()->save($comment);
         
-        return redirect()->route('links.show', $request['link_id']);
+        return redirect()->route('links.show', $link);
     }
 
     public function replyStore(Request $request)

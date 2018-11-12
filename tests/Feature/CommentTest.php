@@ -5,37 +5,92 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class CommentTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testExample()
-    {
-        $this->assertTrue(true);
-    }
 
-    
+    use DatabaseMigrations;
+
+
     public function setUp()
     {
         parent::setUp();
-        $this->link = factory('App\Link')->create();
+        $this->link = create('App\Link');
+        // $this->user = create('App\User');
+    }
+
+
+    // --- STORE -- //
+
+    /** @test **/
+    public function authenticated_user_can_post_comment()
+    {
+        $this->withoutExceptionHandling();
+        $this->signIn();
+        $comment = [
+            'body' => 'This is just so i can assertDatabaseHas',
+            'link_id' => $this->link->id
+        ];
+        $this->post(route('comments.store', $comment))
+            ->assertStatus(302);
+        $this->assertDatabaseHas('comments', [
+            'body' => $comment['body'],
+            'commentable_id' => $comment['link_id']
+        ]);
+    }
+
+    /** @test **/
+    public function authenticated_user_can_post_a_reply()
+    {
+        $this->signIn();
+        $comment = create('App\Comment');
+        $reply = [
+            'body' => 'Comment',
+            'comment_id' => 1,
+            'link_id' => 2
+        ];
+        $this->post(route('reply.store', $reply))
+            ->assertStatus(302);
+        $this->assertDatabaseHas('comments', [
+            'body' => $reply['body'],
+            'parent_id' => $comment->id
+        ]);
+    }
+
+    /** @test **/
+    public function unauthenticated_user_cannot_post_a_comment()
+    {
+        $comment = [
+            'body' => 'This is just so i can assertDatabaseHas',
+            'link_id' => $this->link->id
+        ];
+        $this->post(route('comments.store', $comment))
+             ->assertStatus(302)
+             ->assertRedirect(route('login'));
+        $this->assertDatabaseMissing('comments', [
+            'body' => $comment['body'],
+            'commentable_id' => $comment['link_id']
+        ]);
     }
 
 
     /** @test **/
-    public function auth_user_can_post_comment()
+    public function unauthenticated_user_cannot_post_a_reply()
     {
-        $this->signIn();
-        $comment = factory('App\Comment')
-            ->create([
-                'commentable_id' => $this->link->id,
-                'commentable_type' => 'App\Link',
-            ]);
-        $this->post('/comments', $comment);
-        $this->assertDatabaseHas('comments', ['id' => $comment->id]);
+        $comment = create('App\Comment');
+        $reply = [
+            'body' => 'This is just so i can assertDatabaseHas',
+            'link_id' => 2,
+            'comment_id' => $comment->id
+        ];
+        $this->post(route('comments.store', $comment))
+             ->assertStatus(302)
+             ->assertRedirect(route('login'));
+        $this->assertDatabaseMissing('comments', [
+            'body' => $comment['body'],
+            'commentable_id' => $comment['link_id']
+        ]);
     }
+
 }

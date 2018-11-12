@@ -12,14 +12,50 @@ class CommentTest extends TestCase
 
     use DatabaseMigrations;
 
+    protected $comment;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->comment = create('App\Comment');
+    }
+
+
     /** @test **/
     function comment_has_an_owner()
     {
-        $comment = factory('App\Comment')->create([
-            'commentable_id' => 1,
-            'commentable_type' => 'App\Link',
-        ]);
-        $this->assertInstanceOf('App\User', $comment->user);
+        $comment = create('App\Comment');
+        $this->assertInstanceOf(
+            'App\User', 
+            $comment->user
+        );
     }
 
+
+    /** @test **/
+    public function comment_has_a_reply_and_multiple_replies()
+    {
+        $reply = create('App\Comment', [
+            'commentable_id' => $this->comment->id,
+            'commentable_type' => 'App\Comment'
+        ]);
+        $this->assertInstanceOf(
+            'App\Comment', 
+            $reply->commentable
+        );
+        create('App\Comment', [
+            'commentable_id' => $reply->id,
+            'commentable_type' => 'App\Comment'
+        ]);
+        create('App\Comment', [
+            'commentable_id' => $reply->id,
+            'commentable_type' => 'App\Comment',
+        ]);
+        $this->assertInstanceOf(
+            'Illuminate\Database\Eloquent\Collection',
+            $reply->replies
+        );
+    }
+
+    
 }
