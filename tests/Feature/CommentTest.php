@@ -93,4 +93,42 @@ class CommentTest extends TestCase
         ]);
     }
 
+
+    // --- VALIDATION --- //
+    
+    /** @test **/
+    public function body_is_required()
+    {
+        $this->signIn();
+        $comment = [
+            'link_id' => 2
+        ];
+        $this->post(route('comments.store', $comment))
+            ->assertSessionHasErrors('body');
+    }
+
+    /** @test **/
+    public function link_id_field_is_required_on_comment_submission()
+    {
+        $this->signIn();
+        $comment = [
+            'body' => 'Comment'
+        ];
+        $this->post(route('comments.store', $comment))
+            ->assertSessionHasErrors('link_id');
+    }   
+
+
+    /** @test **/
+    public function link_id_must_be_an_integer()
+    {
+        $this->signIn();
+        $comment = [
+            'body' => 'Comment',
+            'link_id' => 'Must be an integer'
+        ];
+        $this->post(route('comments.store', $comment))
+            ->assertSessionHasErrors('link_id');
+    }
+
 }

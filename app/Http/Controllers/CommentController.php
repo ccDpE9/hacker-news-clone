@@ -16,6 +16,10 @@ class CommentController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'body' => 'bail|required',
+            'link_id' => 'required|integer'
+        ]);
 
         $comment = new Comment;
         $comment->body = $request['body'];
