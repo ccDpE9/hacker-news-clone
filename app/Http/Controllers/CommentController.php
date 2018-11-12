@@ -32,6 +32,12 @@ class CommentController extends Controller
 
     public function replyStore(Request $request)
     {
+        $request->validate([
+            'body' => 'bail|required',
+            'comment_id' => 'required|integer',
+            'link_id' => 'required|integer'
+        ]);
+
         $reply = new Comment;
         $reply->body = $request['body'];
         $reply->user()->associate($request->user());
@@ -52,8 +58,10 @@ class CommentController extends Controller
         //
     }
 
-    public function destroy($id)
+    public function destroy(Comment $comment)
     {
-        //
+        $this->authorize('update', $comment);
+        $comment->delete();
+        return redirect()->back();
     }
 }
