@@ -11,6 +11,8 @@
 
     @can('update', $link)
         <span><a href="{{ route('links.edit', $link) }}">Edit</a></span>
+    @elsecannot('update', $link)
+        <span><a href="#">Report</a></span>
     @endcan
 
     @include('comments.create', ['link_id' => $link->id])
@@ -27,7 +29,14 @@
                     {{ $comment->created_at }}
                 </span>
                 <p class="thread__comment__body">{{ $comment->body }}</p>
-                <p class="btn--reply">reply</p>
+                <span class="btn--reply">Reply</span>
+                <span><a href="#">Share</a></span>
+                <span><a href="#">Save</a></span>
+                @can('update', $comment)
+                    <span><a href="#">Edit</a></span>
+                @elsecannot('update', $comment)
+                    <span><a href="#">Report</a></span>
+                @endcan
             </div>
             @include ('comments.show', ['comments' => $comment->replies])
         </div>
