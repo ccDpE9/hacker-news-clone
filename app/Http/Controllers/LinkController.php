@@ -72,10 +72,10 @@ class LinkController extends Controller
     }
 
 
-    public function edit(Link $link)
+    public function edit(Request $request, Link $link)
     {
         $this->authorize('update', $link);
-        return view('links.edit')
+        return view('links.create')
             ->with('link', $link);
     }
 

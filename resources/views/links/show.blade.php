@@ -8,7 +8,14 @@
         <span>{{ $link->created_at }}</span>
     </div>
     <p>{{ $link->description }}</p>
+
+    @can('update', $link)
+        <span><a href="{{ route('links.edit', $link) }}">Edit</a></span>
+    @endcan
+
     @include('comments.create', ['link_id' => $link->id])
+
+    <hr>
 
     @foreach ($comments as $comment)
         <div class="thread">
