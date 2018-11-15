@@ -57,12 +57,13 @@ a:active {
 /* --- HEADER ---*/
 
 .header-wrapper {
-  height: 60px;
-  padding: 5px;
+  height: 100px;
+  padding: 20px 5px 20px 20px;
   width: 1200px;
   position: fixed;
   z-index: 15;
   background-color: white;
+  border-bottom: solid 1px #eee;
 }
 
 .header-wrapper .logo {
@@ -72,12 +73,14 @@ a:active {
 }
 
 .header-wrapper .logo__image {
-  height: 45px;
+  height: 60px;
+  margin-right: 10px;
   width: auto;
 }
 
 .header-wrapper .logo__name {
   display: inline-block;
+  font-size: 22px;
   line-height: normal;
   vertical-align: super;
   color: #9d9d9d;
@@ -85,6 +88,7 @@ a:active {
 
 .header-wrapper .search-wrapper {
   position: relative;
+  margin-top: 8px;
   display: inline-block;
   float: left;
   width: calc(90% - 230px);
@@ -106,6 +110,7 @@ a:active {
   padding: 0 15px 0 50px;
   height: 42px;
   border-color: #b6b6b6;
+  background-color: transparent;
   width: 85%;
 }
 
@@ -125,11 +130,14 @@ aside {
   margin-left: -600px;
   width: 200px;
   height: 100%;
-  top: 60px;
+  top: 100px;
   position: fixed;
   bottom: 0px;
-  padding: 30px 0 10px;
   z-index: 5;
+}
+
+aside ul {
+  padding: 30px 0 10px;
 }
 
 aside ul li {
@@ -152,6 +160,7 @@ aside ul li a i {
 .container {
   background-color: #fdfdfd;
   position: relative;
+  padding: 0 30px;
   /* --- INDEX PAGE LISTS --- */
   /* --- COMMENTS --- */
 }
@@ -199,16 +208,16 @@ aside ul li a i {
   float: left;
 }
 
-.container .thread__reply {
+.container .thread .comment {
   padding: 8px 0 0 15px;
   border-left: solid 1px #ccc;
 }
 
-.container .thread__reply--user {
+.container .thread .comment__user {
   float: left;
 }
 
-.container .thread__reply--body {
+.container .thread .comment__body {
   margin-bottom: 15px;
 }
 
@@ -301,5 +310,9 @@ aside ul li a i {
   margin-bottom: 8px;
   color: #1c1c1c;
   background-color: transparent;
+}
+
+.comment-reply {
+  display: none;
 }
 

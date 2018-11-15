@@ -56,12 +56,13 @@ a:active {
 /* --- HEADER ---*/
 
 .header-wrapper {
-  height: 60px;
-  padding: 5px;
+  height: 100px;
+  padding: 20px 5px 20px 20px;
   width: 1200px;
   position: fixed;
   z-index: 15;
   background-color: white;
+  border-bottom: solid 1px #eee;
 
   .logo {
     display: inline-block;
@@ -69,12 +70,14 @@ a:active {
     width: 230px;
 
     &__image {
-      height: 45px;
+      height: 60px;
+      margin-right: 10px;
       width: auto;
     }
 
     &__name {
       display: inline-block;
+      font-size: 22px;
       line-height: normal;
       vertical-align: super;
       color: #9d9d9d;
@@ -84,6 +87,7 @@ a:active {
 
   .search-wrapper {
     position: relative;
+    margin-top: 8px;
     display: inline-block;
     float: left;
     width: calc(90% - 230px);
@@ -106,6 +110,7 @@ a:active {
 	padding: 0 15px 0 50px;
 	height: 42px;
 	border-color: #b6b6b6;
+	background-color: transparent;
 
 	width: 85%;
 
@@ -133,26 +138,33 @@ aside {
   margin-left: -600px;
   width: 200px;
   height: 100%;
-  top: 60px;
+  top: 100px;
   position: fixed;
   bottom: 0px;
-  padding: 30px 0 10px;
   z-index: 5;
 
   ul {
+    padding: 30px 0 10px;
+
     li {
       width: 100%;
+
       a {
 	display: block;
 	width: 100%;
 	padding: 10px 20px;
 	color: #5c5c5c;
+
 	i {
 	  margin-right: 10px;
 	}
+
       }
+
     }
+
   }
+
 }
 
 
@@ -161,6 +173,7 @@ aside {
 .container {
   background-color: #fdfdfd;
   position: relative;
+  padding: 0 30px;
 
   /* --- INDEX PAGE LISTS --- */
   .link {
@@ -217,15 +230,15 @@ aside {
 
     }
 
-    &__reply {
+    .comment {
       padding: 8px 0 0 15px;
       border-left: solid 1px #ccc;
 
-      &--user {
+      &__user {
 	float: left;
       }
 
-      &--body {
+      &__body {
 	margin-bottom: 15px;
       }
 
@@ -337,4 +350,9 @@ aside {
     background-color: transparent;
   }
 
+}
+
+
+.comment-reply {
+  display: none;
 }

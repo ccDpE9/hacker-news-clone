@@ -1,24 +1,15 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
+var replyBtn = document.querySelectorAll('.btn--reply');
 
+function toggleReplyForm(e) {
+  var elem = e.currentTarget.parentNode.parentNode.parentNode.children[4];
+  elem.classList.toggle('active');
+  if (elem.classList[1] == 'active') {
+    elem.style.display = 'none';
+  } else {
+    elem.style.display = 'block';
+  }
+}
 
-// window.Vue = require('vue');
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-/*
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
-
-const app = new Vue({
-    el: '#app'
-});
-*/
-
-require('jquery');
+for (var i=0; i<replyBtn.length; i++) {
+  replyBtn[i].addEventListener('click', toggleReplyForm);
+}
