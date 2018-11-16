@@ -84,14 +84,23 @@ class LinkTest extends TestCase
     }
 
 
+    /** @test **/
+    function authenticated_users_may_access_create_view()
+    {
+        $this->signIn();
+        $this->get(route('links.create'))
+             ->assertStatus(200);
+    }
+
+
     // --- STORE --- //
 
     /** @test **/
     function auth_user_can_post_link()
     {
-        $this->signIn($this->user);
+        $this->signIn();
         $link = make('App\Link', [
-            'user_id' => $this->user->id,
+            'user_id' => auth()->id()
         ]);
         $this->post(route('links.store', $link->toArray()));
         $this->assertDatabaseHas('links', [
@@ -151,9 +160,9 @@ class LinkTest extends TestCase
     /** @test **/
     function authorized_users_may_delete_links()
     {
-        $this->signIn($this->user);
+        $this->signIn();
         $link = create('App\Link', [
-            'user_id' => $this->user->id,
+            'user_id' => auth()->id(),
         ]);
         $this->delete(route('links.show', $link))
             ->assertStatus(302);
@@ -178,10 +187,8 @@ class LinkTest extends TestCase
     {
         $this->publishLink([
             'title' => null,
-            'user_id' => auth()->id()
         ])->assertSessionHasErrors('title');
     }
-
 
     /** @test **/
     function a_links_title_should_not_be_too_long()
@@ -191,28 +198,16 @@ class LinkTest extends TestCase
         ])->assertSessionHasErrors(['title']);
     }
 
-
     /** @test **/
     function a_links_title_is_long_enough()
     {
-        $link = create('App\Link', [
+        create('App\Link', [
             'title' => str_repeat('a', 55),
         ]);
         $this->assertDatabaseHas('links', [
             'title' => str_repeat('a', 55),
         ]);
-        // used 302 because i redirect in LinkController
-        // $this->assertStatus(302);
     }
-
-
-    /** @test **/
-    function link_must_have_a_user()
-    {
-        $this->publishLink(['user_id' => null])
-            ->assertSessionHasErrors();
-    }
-
 
     /** @test **/
     function a_link_must_have_a_url()
@@ -220,7 +215,6 @@ class LinkTest extends TestCase
         $this->publishLink(['url' => null])
              ->assertSessionHasErrors('url');;
     }
-
 
     /** @test **/
     function a_link_requires_valid_url()
@@ -237,7 +231,6 @@ class LinkTest extends TestCase
         });
     }
 
-
     /** @test **/
     function two_links_wont_have_a_same_slug_even_if_their_titles_are_the_same()
     {
@@ -249,7 +242,6 @@ class LinkTest extends TestCase
         ]);
         $this->assertNotEquals($link1->slug, $link2->slug);
     }
-
 
     function publishLink($data)
     {
@@ -265,9 +257,9 @@ class LinkTest extends TestCase
     /** @test **/
     function if_link_is_deleted_its_comments_are_deleted_too()
     {
-        $this->signIn($this->user);
+        $this->signIn();
         $link = create('App\Link', [
-            'user_id' => $this->user->id
+            'user_id' => auth()->id()
         ]);
         $comment = create('App\Comment', [
             'commentable_id' => $link->id

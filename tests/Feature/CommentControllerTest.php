@@ -29,7 +29,6 @@ class CommentTest extends TestCase
     /** @test **/
     public function authenticated_user_can_post_comment()
     {
-        $this->withoutExceptionHandling();
         $this->signIn();
         $comment = [
             'body' => 'This is just so i can assertDatabaseHas',
@@ -101,10 +100,9 @@ class CommentTest extends TestCase
     /** @test **/
     public function authorized_users_may_delete_a_comment()
     {
-        $user = create('App\User');
-        $this->signIn($user);
+        $this->signIn();
         $comment = create('App\Comment', [
-            'user_id' => $user->id,
+            'user_id' => auth()->id()
         ]);
         $this->delete('/comments/' . $comment->id)
              ->assertStatus(302);
@@ -115,8 +113,7 @@ class CommentTest extends TestCase
     /** @test **/
     public function nonauthorized_user_may_not_delete_a_comment()
     {
-        $user = create('App\User');
-        $this->signIn($user);
+        $this->signIn();
         $this->delete('/comments/' . $this->comment->id)
             ->assertStatus(403);
     }
