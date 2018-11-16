@@ -83,9 +83,17 @@ class LinkController extends Controller
     public function update(Request $request, Link $link)
     {
         $this->authorize('update', $link);
+        /*
         $link->update($request()->validate([
             'title' => 'required',
-            'body' => 'required',
+            'url' => 'required',
+            'description' => 'required'
+        ]));
+         */
+        $link->update(request()->validate([
+            'title' => 'required',
+            'url' => 'required',
+            'description' => 'required'
         ]));
         return redirect(route('links.show', $link));
     }

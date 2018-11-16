@@ -20,6 +20,7 @@ class LinkTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+
         $this->link = create('App\Link');
         $this->user = create('App\User');
 
@@ -103,23 +104,45 @@ class LinkTest extends TestCase
     // --- UPDATE --- //
 
     /** @test **/
-    function authorized_users_may_update_links()
+    public function a_link_requires_title_url_and_description_to_be_updated()
     {
-        $this->signIn($this->user);
+        $this->signIn();
         $link = create('App\Link', [
-            'user_id' => $this->user->id
+            'user_id' => auth()->id()
         ]);
-        $this->put(route('links.update', $link))
-            ->assertStatus(302); 
+        $this->put(route('links.show', $link), [
+            'title' => Null,
+            'url' => Null,
+            'description' => Null
+        ])->assertSessionHasErrors(['title']);
     }
 
+    /** @test **/
+    function authorized_users_may_update_links()
+    {
+        $this->signIn();
+        $link = create('App\Link', [
+            'user_id' => auth()->id(),
+        ]);
+        $this->put(route('links.update', $link), [
+            'title' => 'Changed',
+            'url' => 'https://www.google.com',
+            'description' => 'Changed'
+        ])->assertStatus(302)->assertRedirect(route('links.show', $link));
+        $this->assertDatabaseHas('links', [
+            'title' => 'Changed',
+            'description' => 'Changed'
+        ]);
+
+    }
 
     /** @test **/
     function unauthorized_users_may_not_update_links()
     {
         $this->signIn();
-        $this->put(route('links.update', $this->link))
-            ->assertStatus(403);
+        $this->put(route('links.update', $this->link), [
+            'body' => 'Changed'
+        ])->assertStatus(403);
     }
 
 
@@ -153,8 +176,10 @@ class LinkTest extends TestCase
     /** @test **/
     function link_must_have_a_title()
     {
-        $this->publishLink(['title' => null])
-            ->assertSessionHasErrors('title');
+        $this->publishLink([
+            'title' => null,
+            'user_id' => auth()->id()
+        ])->assertSessionHasErrors('title');
     }
 
 
@@ -170,14 +195,14 @@ class LinkTest extends TestCase
     /** @test **/
     function a_links_title_is_long_enough()
     {
-        $response = $this->publishLink([
+        $link = create('App\Link', [
             'title' => str_repeat('a', 55),
         ]);
         $this->assertDatabaseHas('links', [
             'title' => str_repeat('a', 55),
         ]);
         // used 302 because i redirect in LinkController
-        $response->assertStatus(302);
+        // $this->assertStatus(302);
     }
 
 
@@ -208,9 +233,7 @@ class LinkTest extends TestCase
             $this->publishLink([
                 'title' => 'Test',
                 'url' => $invalidUrl
-            ])->assertSessionHasErrors([
-                'url'
-            ]);
+            ])->assertSessionHasErrors('url');
         });
     }
 
@@ -231,6 +254,7 @@ class LinkTest extends TestCase
     function publishLink($data)
     {
         $this->signIn();
+        $data['user_id'] = auth()->id();
         $link = make('App\Link', $data);
         return $this->post(route('links.store'), $link->toArray());
     }
