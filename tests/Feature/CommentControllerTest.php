@@ -53,7 +53,7 @@ class CommentTest extends TestCase
             'comment_id' => $this->comment->id,
             'link_id' => $this->link->id
         ];
-        $this->post(route('reply.store', $reply))
+        $this->post(route('comments.store', $reply))
             ->assertStatus(302);
         $this->assertDatabaseHas('comments', [
             'body' => $reply['body'],
@@ -125,7 +125,7 @@ class CommentTest extends TestCase
     // --- VALIDATION --- //
     
     /** @test **/
-    public function body_and_link_id_are_required()
+    public function body_and_linkId_are_required()
     {
         $this->signIn();
         $comment = [
@@ -135,7 +135,7 @@ class CommentTest extends TestCase
     }
 
     /** @test **/
-    public function link_id_must_be_an_integer()
+    public function linkId_must_be_an_integer()
     {
         $this->signIn();
         $comment = [
@@ -147,26 +147,16 @@ class CommentTest extends TestCase
     }
 
     /** @test **/
-    public function body_commentId_and_linkId_are_required_on_reply()
-    {
-        $this->signIn();
-        $comment = [];
-        $this->post(route('reply.store', $comment))
-            ->assertSessionHasErrors(['body', 'link_id', 'comment_id']);
-    }
-
-    /** @test **/
-    public function linkId_and_commentId_must_be_int()
+    public function commentId_must_be_int()
     {
         $this->signIn();
         $comment = [
-            'body' => 'Comment',
-            'link_id' => 'String',
+            'body' => 'Test',
+            'link_id' => $this->link->id,
             'comment_id' => 'String'
         ];
-        $this->post(route('reply.store', $comment))
-            ->assertSessionHasErrors(['link_id', 'comment_id']);
+        $this->post(route('comments.store', $comment))
+            ->assertSessionHasErrors('comment_id');
     }
-
 
 }
