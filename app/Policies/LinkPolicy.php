@@ -13,7 +13,7 @@ class LinkPolicy
 
     public function update(User $user, Link $link)
     {
-        return $link->user_id == $user->id;
+        return $user->id === (int) $link->user_id;
     }
 
 }
