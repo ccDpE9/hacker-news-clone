@@ -18,12 +18,31 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function links()
+
+    protected static function boot()
     {
-        return $this->hasMany('App\Link');
+        parent::boot();
+
+        static::deleting(function ($link) {
+            $user->links()->delete();
+        });
+
     }
 
-    public function likes()
+
+    public function links()
+    {
+        return $this->hasMany('App\Link')->latest();
+    }
+
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment')->latest();
+    }
+
+
+    public function upvotes()
     {
         return $this->hasMany('App\Upvote');
     }
