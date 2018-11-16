@@ -24,31 +24,22 @@ class CommentController extends Controller
         $comment = new Comment;
         $comment->body = $request['body'];
         $comment->user()->associate($request->user());
+
+        if ($request->has('comment_id')) {
+            $request->validate([
+                'comment_id' => 'integer'
+            ]);
+            $comment->parent_id = $request['comment_id'];
+        }
+
         $link = Link::find($request['link_id']);
         $link->comments()->save($comment);
         
         return redirect()->route('links.show', $link);
     }
 
-    public function replyStore(Request $request)
-    {
-        $request->validate([
-            'body' => 'bail|required',
-            'comment_id' => 'required|integer',
-            'link_id' => 'required|integer'
-        ]);
 
-        $reply = new Comment;
-        $reply->body = $request['body'];
-        $reply->user()->associate($request->user());
-        $reply->parent_id = $request['comment_id'];
-        $link = Link::find($request['link_id']);
-        $link->comments()->save($reply);
-
-        return redirect()->route('links.show', $request['link_id']);
-    }
-
-    public function edit($id)
+    public function edit(Link $link)
     {
         //
     }
