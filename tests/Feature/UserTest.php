@@ -23,6 +23,9 @@ class UserTest extends TestCase
     /** @test **/
     public function user_has_a_link()
     {
+        create('App\Link', [
+            'user_id' => $this->user->id
+        ]);
         $this->assertInstanceOf(
             \App\Link::class,
             $this->user->links->first()
