@@ -4,7 +4,13 @@
   margin: 0;
   padding: 0;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html,
+html a {
+  -webkit-font-smoothing: antialiased !important;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
 }
 
 .clearfix:after {
@@ -26,6 +32,10 @@ body {
 
 ul {
   list-style: none;
+}
+
+a {
+  text-decoration: none;
 }
 
 a:hover,
@@ -314,5 +324,128 @@ aside ul li a i {
 
 .comment-reply {
   display: none;
+}
+
+.login-modal {
+  position: apsolute;
+  width: 440px;
+  height: auto;
+  background-color: white;
+  -webkit-box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4);
+          box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.login-modal .cover-photo {
+  width: 100%;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.login-modal .body {
+  padding: 16px 36px 0 36px;
+}
+
+.login-modal .fb-login {
+  display: block;
+  line-height: 40px;
+  text-align: center;
+  color: white;
+  font-weight: 800;
+  border-radius: 3px;
+  height: 40px;
+  width: 100%;
+  background-color: #5667af;
+  -webkit-transition: background-color 0.4s;
+  transition: background-color 0.4s;
+}
+
+.login-modal .fb-login:hover {
+  background-color: lighten #5667af 4%;
+  -webkit-transition: background-color 0.4s;
+  transition: background-color 0.4s;
+}
+
+.login-modal .or-divider {
+  position: relative;
+  margin: 26px 0px;
+  font-size: 14px;
+  font-weight: 600;
+  width: 100%;
+  height: 0px;
+  border: 1px solid #eeeeee;
+}
+
+.login-modal .or-divider span {
+  color: #7f7f7f;
+  position: relative;
+  top: -7px;
+  background-color: white;
+  padding: 0 8px;
+  left: 50%;
+  margin-left: -16px;
+}
+
+.login-modal input {
+  outline: none;
+  border: 2px solid #eee;
+  font-size: 13px;
+  font-weight: 400;
+  padding: 0 14px;
+  width: 100%;
+  height: 36px;
+  margin-bottom: 16px;
+  background-color: transparent;
+}
+
+.login-modal input:hover {
+  border: 1px solid #dddddd;
+}
+
+.login-modal input:focus {
+  border: 1px solid #cecece;
+}
+
+.login-modal .forgot-password {
+  float: left;
+  font-size: 14px;
+  line-height: 32px;
+  color: #666;
+}
+
+.login-modal #login-form-submit {
+  float: right;
+  outline: 0;
+  opacity: 1;
+  width: 180px;
+  height: 32px;
+  background-color: #FF742B;
+  color: white;
+  border: 0;
+  font-weight: 600;
+  -webkit-transition: opacity .5s;
+  transition: opacity .5s;
+}
+
+.login-modal #login-form-submit:hover {
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+.login-modal footer {
+  float: left;
+  background-color: #f7f7f7;
+  height: 46px;
+  width: 100%;
+  border-top: 1px solid #e1e1e1;
+  color: #a0a0a0;
+  font-size: 14px;
+  line-height: 46px;
+  padding: 0 36px;
+  -webkit-box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4);
+          box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.login-modal footer a {
+  color: #FF742B;
+  font-weight: 600;
 }
 
