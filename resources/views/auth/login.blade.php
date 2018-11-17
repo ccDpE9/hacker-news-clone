@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="modal login-modal">
-        <header class="cover-photo"></header>
+        <span class="cover-photo"></span>
         <div class="body clearfix">
             <a href="#" class="fb-login">Log in with Faceebook</a>
             <p class="or-divider"><span>Or</span></p>
