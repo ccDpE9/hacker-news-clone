@@ -95,11 +95,13 @@ $('.login--btn').on('click', function () {
   $('.login-modal-overlay').fadeIn(200);
 });
 
-/*
-$('.login-modal-overlay').click(function() {
+$('.login-modal').click(function (event) {
+  event.stopPropagation();
+});
+
+$('.login-modal-overlay').click(function () {
   $('.login-modal-overlay').fadeOut(200);
 });
-*/
 
 $('.login-form').on('submit', function (e) {
   e.preventDefault();
@@ -115,11 +117,16 @@ $('.login-form').on('submit', function (e) {
       'password': $('input[name=password').val()
     },
     success: function success(data) {
-      console.log('Test');
+      $('.login-modal-overlay').fadeOut();
     },
     error: function error(response) {
-      $('.login-error').text(response.responseJSON.error);
-      $('.login-error').show();
+      console.log(response);
+      if (response.responseJSON.errors.email[0]) {
+        $('.login-form__error').text(response.responseJSON.message);
+        $('.login-form__error').fadeIn();
+      } else {
+        console.log('Internal server error. Try again.');
+      }
     }
 
   });

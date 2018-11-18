@@ -326,10 +326,24 @@ aside ul li a i {
   display: none;
 }
 
+/*
+.login-modal-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  //display: none;
+}
+*/
+
 .login-modal {
-  position: apsolute;
+  position: relative;
   width: 440px;
   height: auto;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
   background-color: white;
   -webkit-box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4);
           box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4);
@@ -405,6 +419,7 @@ aside ul li a i {
   height: 36px;
   margin-bottom: 16px;
   background-color: transparent;
+  color: #5c5c5c;
 }
 
 .login-modal input:hover {
@@ -458,5 +473,30 @@ aside ul li a i {
 .login-modal footer a {
   color: #FF742B;
   font-weight: 600;
+}
+
+.login-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.login-form__error {
+  display: none;
+  background-color: #f2dede;
+  margin: 0 auto;
+  width: 70%;
+  color: #a94442;
+  font-weight: bold;
+  text-align: center;
+  padding: 5px 0 5px 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
 }
 

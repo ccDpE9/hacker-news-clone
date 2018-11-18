@@ -16,4 +16,14 @@
         </form>
     </div>
 
+    @if(auth()->check()) 
+        <a href="{{ route('logout') }}" class="logout--btn">Logout</a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            {{ csrf_field() }}
+        </form>
+    @else
+        @include('auth.login')
+        <a class="login--btn">Log in</a>
+    @endif
+
 </header>
