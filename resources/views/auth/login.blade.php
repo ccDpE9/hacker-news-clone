@@ -1,15 +1,14 @@
-@extends('layouts.app')
-
-@section('content')
+<div class="login-modal-overlay">
     <div class="modal login-modal">
         <span class="cover-photo"></span>
         <div class="body clearfix">
             <a href="#" class="fb-login">Log in with Faceebook</a>
             <p class="or-divider"><span>Or</span></p>
+            <div class="login-error" style="display: none;">
+            </div>
             <form method="POST" class="login-form" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
                 @csrf
-
-                <input id="name" type="username" name="name" placeholder="Username..." required autofocus />
+                <input id="email" type="email" name="email" placeholder="Username..." required autofocus />
                 @if ($errors->has('email'))
                     <span>
                         <strong>{{ $errors->first('email') }}</strong>
@@ -32,10 +31,9 @@
 
         <footer>
             <p>
-                Not a member? <a href="#">Register</a>
+            Not a member? <a href="#">Register</a>
             </p>
         </footer>
 
     </div>
-
-@endsection
+</div>

@@ -41,22 +41,16 @@ $('.login-form').on('submit', function(e) {
     success: function (data) {
       console.log('Test');
     },
-    error: function (x,e) {
-      if (x.status == 0) {
-        console.log('You are offline');
-      } else if (x.status == 404) {
-        console.log('Requested URL not found\n'+$(this).attr('action'));
-      } else if (x.status == 500) {
-        console.log('Internal Server Error');
-      } else if (e == 'parseerror') {
-        console.log('Error.\nParsing JSON Request failed');
-      } else if (e == 'timeout') {
-        console.log('Request Time out');
-      } else {
-        console.log('Unknown Error.\n'+x.responseText);
-      }
+    error: function (response) {
+      $('.login-error').text(response.responseJSON.error);
+      $('.login-error').show();
     }
 
   });
 
 });
+
+$('.logout--btn').on('click', function(e) {
+  e.preventDefault();
+  $('#logout-form').submit();
+})
