@@ -8,31 +8,34 @@ class Link extends Model
 {
 
 
-    protected $fillable = ['title', 'slug', 'url', 'description', 'user_id'];
+    protected $fillable = [
+        'title', 
+        'slug', 
+        'url', 
+        'description', 
+        'user_id'
+    ];
 
 
-    // is fired on each instantiation of the model
-    // think of it as a constructor
     protected static function boot()
     {
         parent::boot();
 
-        // eloquent models fire several events, allowing you to hook into various points in the model's lifecycle
-        
-        // called before delete() method
         static::deleting(function ($link) {
             $link->comments()->delete();
         });
 
-
-        // 'created' method is fired right after the record is created
         static::created(function ($link) {
             $link->update(['slug' => $link->title]);
+        });
+
+        static::addGlobalScope('commentsCount', function ($builder) {
+            // global scope is query scope that is automatically applied to all queries
+            $builder->withCount('comments');
         });
     }
 
 
-    // called before record is saved to the db
     public function setSlugAttribute($value)
     {
         // check if the record with the given slug exists

@@ -42,6 +42,9 @@
                     <span>
                         <a class="link__btn link__url" href="{{ $link->url }}" target="_blank">{{ $link->baseUrl() }}</a>
                     </span>
+                    <span>
+                        {{ $link->comments_count }}
+                    </span>
                 </div>
             </div>
             <div class="link__social">
