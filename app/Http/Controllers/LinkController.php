@@ -22,9 +22,11 @@ class LinkController extends Controller
 
     public function index()
     {
-        $links = Link::with('user') ->get();
-        return view('links.index')
-            ->with('links', $links);
+        // Link::latest()->toSql()
+        $links = Link::latest()->paginate(20);
+        return view('links.index', [
+            'links' => $links
+        ]);
     }
 
 

@@ -61,6 +61,8 @@
         </div>
     @endforeach
 
+    {{ $links->links() }}
+
     <script>
         var url = '{{ route('upvotes.store') }}';
     </script>
