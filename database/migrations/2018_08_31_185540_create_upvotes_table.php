@@ -15,19 +15,13 @@ class CreateUpvotesTable extends Migration
     {
         Schema::create('upvotes', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id')
-                  ->unsigned();
+            $table->unsignedInteger('user_id');
             $table->foreign('user_id')
                   ->references('id')
                   ->on('users')
                   ->onDelete('cascade');
-            $table->unsignedInteger('link_id')
-                  ->unsigned();
-            $table->foreign('link_id')
-                  ->references('id')
-                  ->on('links')
-                  ->onDelete('cascade');
-            $table->boolean('upvote');
+            $table->unsignedInteger('upvoted_id');
+            $table->string('upvoted_type');
             $table->timestamps();
         });
     }
