@@ -61,3 +61,35 @@ $('.logout--btn').on('click', function(e) {
   e.preventDefault();
   $('#logout-form').submit();
 })
+
+
+// --- PAGINATION --- //
+$(document).ready(function() {
+
+  $(document).on('click', '.pagination a', function(e) {
+    e.preventDefault();
+
+    var url = $(this).attr('href');
+    fetchData(url);
+    /*
+    $.get(url, function(data) {
+      $('.links').html(data);
+    });
+    */
+  });
+
+  function fetchData(url) {
+    $.ajax({
+      url: url,
+      success: function(data) {
+        $('.links').html(data);
+      },
+      error: function() {
+        console.log('Error');
+      }
+    });
+  }
+    
+
+});
+

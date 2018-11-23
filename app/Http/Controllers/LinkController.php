@@ -20,13 +20,16 @@ class LinkController extends Controller
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
         // Link::latest()->toSql()
         $links = Link::latest()->paginate(20);
-        return view('links.index', [
-            'links' => $links
-        ]);
+
+        if($request->ajax()) {
+            return view('ajax.index', compact('links'))->render();
+        }
+
+        return view('links.index', compact('links'));
     }
 
 
