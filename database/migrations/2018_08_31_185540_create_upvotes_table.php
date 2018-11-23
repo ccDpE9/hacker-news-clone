@@ -20,7 +20,7 @@ class CreateUpvotesTable extends Migration
                   ->references('id')
                   ->on('users')
                   ->onDelete('cascade');
-            $table->unsignedInteger('upvoted_id');
+            $table->unsignedInteger('upvoteable_id');
             $table->string('upvoted_type');
             $table->timestamps();
         });
