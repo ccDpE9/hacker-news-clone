@@ -44,15 +44,6 @@ class UserTest extends TestCase
 
 
     /** @test **/
-    public function user_can_view_a_login_form()
-    {
-        $response = $this->get('/login');
-        $response->assertSuccessful();
-        $response->assertViewIs('auth.login');
-    }
-
-
-    /** @test **/
     public function a_user_has_many_links()
     {
         $user = create('App\User');
@@ -66,7 +57,7 @@ class UserTest extends TestCase
 
 
     /** @test **/
-    public function the_name_is_required()
+    public function name_is_required()
     {
         $this->post(
             route('register'),
