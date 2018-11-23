@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Comment;
 use App\Link;
+use App\Http\Requests\CommentFormRequest;
+
 
 class CommentController extends Controller
 {
@@ -14,28 +17,22 @@ class CommentController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(CommentFormRequest $request)
     {
-        $request->validate([
-            'body' => 'bail|required',
-            'link_id' => 'required|integer'
-        ]);
-
-        $comment = new Comment;
-        $comment->body = $request['body'];
-        $comment->user()->associate($request->user());
-
-        if ($request->has('comment_id')) {
-            $request->validate([
-                'comment_id' => 'integer'
-            ]);
-            $comment->parent_id = $request['comment_id'];
-        }
 
         $link = Link::find($request['link_id']);
-        $link->comments()->save($comment);
+
+        $link->comments()->create([
+            'body' => $request['body'],
+            'user_id' => auth()->id(),
+            'parent_id' => (null !== ($request->has('comment_id'))
+                ? $request['comment_id']
+                : null
+            )
+        ]);
         
         return redirect()->route('links.show', $link);
+
     }
 
 

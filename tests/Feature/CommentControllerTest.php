@@ -48,7 +48,7 @@ class CommentTest extends TestCase
         $this->signIn();
         $comment = create('App\Comment');
         $reply = [
-            'body' => 'Comment',
+            'body' => 'Reply',
             'comment_id' => $this->comment->id,
             'link_id' => $this->link->id
         ];
@@ -150,7 +150,7 @@ class CommentTest extends TestCase
         $comment = [
             'body' => 'Test',
             'link_id' => $this->link->id,
-            'comment_id' => 'String'
+            'comment_id' => ''
         ];
         $this->post(route('comments.store', $comment))
             ->assertSessionHasErrors('comment_id');

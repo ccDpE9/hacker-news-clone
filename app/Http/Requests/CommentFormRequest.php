@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CommentFormRequest extends FormRequest
@@ -19,12 +20,12 @@ class CommentFormRequest extends FormRequest
     }
 
     
-    public function rules(Request $request)
+    public function rules()
     {
         $rules = $this->rules;
 
-        if ($request->has('comment_id')) {
-            $rules['comment_id'] = 'integer'
+        if ($this->has('comment_id')) {
+            $rules['comment_id'] = 'required|integer';
         }
 
         return $rules;

@@ -54,9 +54,9 @@ class Link extends Model
     }
 
 
-    public function likes()
+    public function upvotes()
     {
-        return $this->hasMany('App\Upvote');
+        return $this->morphMany('App\Upvote', 'upvoteable');
     }
 
 
