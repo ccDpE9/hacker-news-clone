@@ -42,7 +42,7 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
+            'port' => env('DB_PORT', '3307'),
             'database' => env('DB_DATABASE', 'hacker_news'),
             'username' => env('DB_USERNAME', 'comm'),
             'password' => env('DB_PASSWORD', 'comm'),
