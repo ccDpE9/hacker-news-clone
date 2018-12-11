@@ -22,6 +22,12 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 
+// --- SOCIALITE --- //
+
+Route::get('auth/github', 'Auth\AuthController@redirectToProvider');
+Route::get('auth/github/callback', 'Auth\AuthController@handleProviderCallback');
+
+
 // --- PROFILE --- //
 Route::resource('/profile', 'ProfileController')->only(['show']);
 Route::get('/submitted/{name}/links', [
