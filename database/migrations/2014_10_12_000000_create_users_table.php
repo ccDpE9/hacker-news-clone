@@ -15,8 +15,8 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('github_id')->unique();
-            $table->string('username')->unique();
+            $table->string('provider_name');
+            $table->string('provider_id');
             $table->string('email')->unique();
             $table->string('password');
             $table->string('about')->default('null');

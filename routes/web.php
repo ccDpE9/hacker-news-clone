@@ -24,8 +24,8 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 // --- SOCIALITE --- //
 
-Route::get('auth/github', 'Auth\AuthController@redirectToProvider');
-Route::get('auth/github/callback', 'Auth\AuthController@handleProviderCallback');
+Route::get('auth/{provider}', 'Auth\AuthController@redirectToProvider')->where('provider', 'twitter|github|google');
+Route::get('auth/{provider}/callback', 'Auth\AuthController@handleProviderCallback')->where('provider', 'twitter|github|google');
 
 
 // --- PROFILE --- //
