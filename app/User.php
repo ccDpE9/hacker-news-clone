@@ -48,6 +48,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Upvote');
     }
 
+    public function getRouteKeyName()
+    {
+        return 'name';
+    }
 
     public function getLastLoginAttribute($value)
     {

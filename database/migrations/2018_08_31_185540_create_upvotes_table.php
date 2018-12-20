@@ -20,9 +20,16 @@ class CreateUpvotesTable extends Migration
                   ->references('id')
                   ->on('users')
                   ->onDelete('cascade');
-            $table->unsignedInteger('upvoteable_id');
-            $table->string('upvoted_type');
+            $table->unsignedInteger('link_id');
+            $table->foreign('link_id')
+                  ->references('id')
+                  ->on('links')
+                  ->onDelete('cascade');
             $table->timestamps();
+
+
+            // the combination of all elements must be unique
+            $table->unique(['user_id', 'link_id']);
         });
     }
 

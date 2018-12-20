@@ -21,7 +21,7 @@ class UserTest extends TestCase
 
 
     /** @test **/
-    public function user_has_a_link()
+    public function user_can_create_a_link()
     {
         create('App\Link', [
             'user_id' => $this->user->id
@@ -34,7 +34,7 @@ class UserTest extends TestCase
 
 
     /** @test **/
-    public function user_has_many_links()
+    public function user_can_create_many_links()
     {
         $this->assertInstanceOf(
             'Illuminate\Database\Eloquent\Collection', 
@@ -44,20 +44,7 @@ class UserTest extends TestCase
 
 
     /** @test **/
-    public function a_user_has_many_links()
-    {
-        $user = create('App\User');
-        create('App\Link', [ 
-            'title' => 'Test',
-            'url' => 'www.test.com',
-            'user_id' => $user->id
-        ]);
-        $this->assertInstanceOf('App\Link', $user->links->first());
-    }
-
-
-    /** @test **/
-    public function name_is_required()
+    public function name_field_is_required()
     {
         $this->post(
             route('register'),
@@ -67,7 +54,7 @@ class UserTest extends TestCase
 
 
     /** @test **/
-    public function the_name_must_be_unique()
+    public function name_field_must_be_unique()
     {
         create('App\User', [
             'name' => 'Knever'
@@ -80,7 +67,7 @@ class UserTest extends TestCase
 
 
     /** @test **/
-    public function the_email_must_be_unique()
+    public function email_field_must_be_unique()
     {
         create('App\User', [
             'email' => 'example@gmail.com'
@@ -93,7 +80,7 @@ class UserTest extends TestCase
 
 
     /** @test **/
-    public function the_name_may_not_be_greater_than_60_chars_long()
+    public function name_field_may_not_be_greater_than_60_chars_long()
     {
         $this->post(
             route('register'),

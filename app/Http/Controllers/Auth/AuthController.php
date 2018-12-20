@@ -25,6 +25,7 @@ class AuthController extends Controller
         }
 
         $authUser = $this->findOrCreateUser($user, $provider);
+        dd($authUser);
 
         Auth::login($authUser, true);
 

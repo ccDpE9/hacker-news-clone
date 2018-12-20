@@ -36,18 +36,6 @@ class Link extends Model
     }
 
 
-    public function setSlugAttribute($value)
-    {
-        // check if the record with the given slug exists
-        if (static::whereSlug($slug = str_slug($value))->exists()) {
-            $slug = "{$slug}-{$this->id}";
-        }
-
-        $this->attributes['slug'] = $slug;
-    }
-
-
-
     public function user()
     {
         return $this->belongsTo('App\User');
@@ -56,7 +44,20 @@ class Link extends Model
 
     public function upvotes()
     {
-        return $this->morphMany('App\Upvote', 'upvoteable');
+        return $this->hasMany('App\Upvote');
+    }
+
+
+    public function upvote()
+    {
+        // upvotes returns QueryBuilder, that why we can use where()?
+        if (!$this->upvotes->where(['user_id' => auth()->id()])->exists()) {
+            $link->upvotes->create([
+                'user_id' => auth()->id()
+            ]);
+        } else {
+            \DB::table('upvote')->where('user_id', '=', auth()->id())->delete();
+        }
     }
 
 
@@ -94,6 +95,17 @@ class Link extends Model
             $this->attributes['created_at']
         );
         return $end->diffForHumans($now);
+    }
+
+
+    public function setSlugAttribute($value)
+    {
+        // check if the record with the given slug exists
+        if (static::whereSlug($slug = str_slug($value))->exists()) {
+            $slug = "{$slug}-{$this->id}";
+        }
+
+        $this->attributes['slug'] = $slug;
     }
 
 }

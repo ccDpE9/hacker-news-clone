@@ -4,27 +4,15 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Link;
+
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
-    public function index()
-    {
-        //
-    }
 
-    public function store(Request $request)
+    public function show(User $user)
     {
-        //
-    }
-
-    // public function show(User $user)
-    public function show($name)
-    {
-        $profile = User::where('name', $name)
-            ->firstOrFail();
-        return view('profiles.show')
-            ->with('profile', $profile);
+        return view('profiles.show')->with('profile', $user);
     }
 
     public function edit(User $user)
@@ -42,15 +30,13 @@ class ProfileController extends Controller
         //
     }
 
-    public function links($name)
+    public function links(User $user)
     {
-        $profile = User::where('name', $name)
-            ->firstOrFail();
-        $links = Link::where('user_id', $profile->id)
+        $links = Link::where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->get();
         return view('links.index')
-            ->with('profile', $profile)
+            ->with('profile', $user)
             ->with('links', $links);
     }
 }
