@@ -29,8 +29,10 @@ Route::get('auth/{provider}/callback', 'Auth\AuthController@handleProviderCallba
 
 
 // --- PROFILE --- //
-Route::resource('/profiles', 'ProfileController')->only(['show']);
-Route::get('/profiles/{name}/submitted', 'ProfileController@links')->name('profiles.links');
+Route::get('/profiles/{name}', 'ProfileController@show')->name('profiles.show');
+Route::get('/profiles/{name}/links', 'ProfileController@links')->name('profiles.links');
+Route::get('/profiles/{name}/comments', 'ProfilesController@comments')->name('profiles.comments');
+Route::get('/profiles/{name}/upvotes', 'ProfilesController@upvotes')->name('profiles.upvotes');
 
 
 // --- UPVOTES --- //

@@ -88,6 +88,7 @@ class Link extends Model
     }
 
 
+    /*
     public function getCreatedAtAttribute()
     {
         $now = \Carbon\Carbon::now();
@@ -96,6 +97,7 @@ class Link extends Model
         );
         return $end->diffForHumans($now);
     }
+     */
 
 
     public function setSlugAttribute($value)

@@ -7,12 +7,22 @@ use App\Link;
 
 use Illuminate\Http\Request;
 
+use Carbon\Carbon;
+
 class ProfileController extends Controller
 {
 
-    public function show(User $user)
+    public function show($name)
     {
-        return view('profiles.show')->with('profile', $user);
+        // $overview = User::where('name', $name)->with(['links', 'upvotes'])->first();
+        $user = User::where('name', $name)->first();
+        $overview = $user->links->merge($user->comments)->sortBy('created_at');
+        return view('profiles.show', [
+            'name' => $user->name,
+            'about' => $user->about,
+            'memberSince' => $user->created_at,
+            'overview' => $overview
+        ]);
     }
 
     public function edit(User $user)
@@ -30,13 +40,36 @@ class ProfileController extends Controller
         //
     }
 
-    public function links(User $user)
+    public function links($name)
     {
-        $links = Link::where('user_id', $user->id)
-            ->orderBy('created_at', 'desc')
-            ->get();
-        return view('links.index')
-            ->with('profile', $user)
-            ->with('links', $links);
+        $user = User::where('name', $name)->firstOrFail();
+        return view('profiles.links', [
+            'name' => $user->name,
+            'about' => $user->about,
+            'memberSince' => $user->created_at,
+            'links' => $user->links
+        ]);
+    }
+
+    public function comments(User $user)
+    {
+        $user = User::where('name', $name)->firstOrFail();
+        return view('profiles.comments', [
+            'name' => $user->name,
+            'about' => $user->about,
+            'memberSince' => $user->created_at,
+            'comments' => $user->comments,
+        ]);
+    }
+
+    public function upvotes(User $user)
+    {
+        $user = User::where('name', $name)->firstOrFail();
+        return view('profiles.upvotes', [
+            'name' => $user->name,
+            'about' => $user->about,
+            'memberSince' => $user->created_at,
+            'upvotes' => $user->upvotes
+        ]);
     }
 }

@@ -31,6 +31,7 @@ class Comment extends Model
     }
 
 
+    /*
     public function getCreatedAtAttribute()
     {
         $now = \Carbon\Carbon::now();
@@ -39,5 +40,6 @@ class Comment extends Model
         );
         return $end->diffForHumans($now);
     }
+     */
 
 }
