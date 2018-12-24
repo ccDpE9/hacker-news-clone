@@ -9,9 +9,9 @@
                 <span>
                     <img src="/img/avatar.svg" class="icon"/>
                     <a class="link__btn link__author" 
-                       href="{{ route('profiles.show', $link->user()->first()->name) }}" 
+                       href="{{ route('profiles.show', $link->user->name) }}" 
                        target="_blank">
-                       {{ $link->user()->first()->name }}
+                       {{ $link->user->name }}
                     </a>
                 </span>
                 <span>
@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="link__social">
-            <a class="link__btn link__comments" href="{{ route('links.show', $link->id) }}">
+            <a class="link__btn link__comments" href="{{ route('links.show', $link->slug) }}">
                 <i class="fa fa-comment-o fa-lg icon--social"></i>
             </a>
             <a href="#">

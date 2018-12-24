@@ -22,8 +22,8 @@ class LinkController extends Controller
 
     public function index(Request $request)
     {
-        // Link::latest()->toSql()
-        $links = Link::latest()->paginate(20);
+        //$links = Link::select('title', 'url', 'created_at')->orderBy('created_at')->get();
+        $links = Link::with('user')->paginate(20);
 
         if($request->ajax()) {
             return view('ajax.index', compact('links'))->render();
