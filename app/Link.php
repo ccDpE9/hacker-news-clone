@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Link extends Model
 {
 
-
     protected $fillable = [
         'title', 
         'slug', 
@@ -45,19 +44,6 @@ class Link extends Model
     public function upvotes()
     {
         return $this->hasMany('App\Upvote');
-    }
-
-
-    public function upvote()
-    {
-        // upvotes returns QueryBuilder, that why we can use where()?
-        if (!$this->upvotes->where(['user_id' => auth()->id()])->exists()) {
-            $link->upvotes->create([
-                'user_id' => auth()->id()
-            ]);
-        } else {
-            \DB::table('upvote')->where('user_id', '=', auth()->id())->delete();
-        }
     }
 
 

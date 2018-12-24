@@ -15,6 +15,7 @@ Route::post('login', 'Auth\LoginController@login')->name('login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::post('register', 'Auth\RegisterController@register')->name('register');
+Route::get('register', 'Auth\RegisterController@showRegistrationForm');
 
 Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
@@ -31,9 +32,9 @@ Route::get('auth/{provider}/callback', 'Auth\AuthController@handleProviderCallba
 // --- PROFILE --- //
 Route::get('/profiles/{name}', 'ProfileController@show')->name('profiles.show');
 Route::get('/profiles/{name}/links', 'ProfileController@links')->name('profiles.links');
-Route::get('/profiles/{name}/comments', 'ProfilesController@comments')->name('profiles.comments');
-Route::get('/profiles/{name}/upvotes', 'ProfilesController@upvotes')->name('profiles.upvotes');
+Route::get('/profiles/{name}/comments', 'ProfileController@comments')->name('profiles.comments');
+Route::get('/profiles/{name}/upvotes', 'ProfileController@upvotes')->name('profiles.upvotes');
 
 
 // --- UPVOTES --- //
-Route::post('/links/{slug}/upvotes', 'UpvoteController@store')->name('upvotes.store');
+Route::get('/links/{slug}/upvotes', 'UpvoteController@store')->name('upvotes.store');

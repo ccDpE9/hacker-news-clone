@@ -9,7 +9,7 @@
                 <span>
                     <img src="/img/avatar.svg" class="icon"/>
                     <a class="link__btn link__author" 
-                       href="{{ route('profile.show', $link->user()->first()->name) }}" 
+                       href="{{ route('profiles.show', $link->user()->first()->name) }}" 
                        target="_blank">
                        {{ $link->user()->first()->name }}
                     </a>
@@ -33,7 +33,7 @@
             <a href="#">
                 <i class="fa fa-share-alt fa-lg icon--social" aria-hidden="true"></i>
             </a>
-            <a class="link__btn link__upvote" href="#" class="link__upvote--btn">
+            <a class="link__btn link__upvote" href="{{ route('upvotes.store', $link->slug) }}" class="link__upvote--btn">
                 <i class="fa fa-star-o fa-lg icon--social"></i>
             </a>
         </div>

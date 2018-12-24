@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Auth;
 class Upvote extends Model
 {
 
+    protected $fillable = [
+        'user_id', 'link_id'
+    ];
+
     public function users()
     {
         return $this->belongsTo('App\User');
